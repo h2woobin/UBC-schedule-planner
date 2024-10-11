@@ -1,7 +1,6 @@
 package model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
@@ -13,7 +12,7 @@ public class ExamTest {
     private Exam testExamTwo;
     private ExamControl.InnerExamControl examControl;
     private List<Exam> listOfExam;
-    
+
     @BeforeEach
     void runBefore() {
         examControl = new ExamControl().new InnerExamControl();
@@ -24,27 +23,28 @@ public class ExamTest {
 
     @Test
     void testConstruture() {
-        assertEquals("cpsc",testExamOne.getSub());
+        assertEquals("cpsc", testExamOne.getSub());
         assertEquals(241016, testExamOne.getDate());
-        assertEquals(15,testExamTwo.getTime());
-        assertEquals(85,testExamTwo.getGoalMark());
+        assertEquals(15, testExamTwo.getTime());
+        assertEquals(85, testExamTwo.getGoalMark());
         assertEquals("B015", testExamOne.getLocation());
     }
 
     @Test
-    void testRemoveExam(){
+    void testRemoveExam() {
         listOfExam.add(testExamOne);
         listOfExam.add(testExamTwo);
-        assertEquals(2,listOfExam.size());
+        assertEquals(2, listOfExam.size());
         examControl.removeExam("chem");
-        assertEquals(1,listOfExam.size());
+        assertEquals(1, listOfExam.size());
     }
 
     @Test
-    void testChangeSubject(){
+    void testChangeSubject() {
         testExamOne.setSubject("bio");
         assertEquals("bio", testExamOne.getSub());
         testExamOne.setSubject("math");
         assertEquals("math", testExamOne.getSub());
     }
+
 }
