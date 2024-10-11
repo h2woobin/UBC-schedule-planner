@@ -29,4 +29,13 @@ public class ExamTest {
         assertEquals(15,testExamTwo.getTime());
         assertTrue(testExamTwo.getGoalMark() >= 0);
     }
+
+    @Test
+    void testRemoveExam(){
+        listOfExam.add(testExamOne);
+        listOfExam.add(testExamTwo);
+        assertEquals(2,listOfExam.size());
+        examControl.removeExam("chem");
+        assertEquals(1,listOfExam.size());
+    }
 }
