@@ -27,7 +27,8 @@ public class ExamTest {
         assertEquals("cpsc",testExamOne.getSub());
         assertEquals(241016, testExamOne.getDate());
         assertEquals(15,testExamTwo.getTime());
-        assertTrue(testExamTwo.getGoalMark() >= 0);
+        assertEquals(85,testExamTwo.getGoalMark());
+        assertEquals("B015", testExamOne.getLocation());
     }
 
     @Test
