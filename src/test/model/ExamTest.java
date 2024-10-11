@@ -38,4 +38,12 @@ public class ExamTest {
         examControl.removeExam("chem");
         assertEquals(1,listOfExam.size());
     }
+
+    @Test
+    void testChangeSubject(){
+        testExamOne.setSubject("bio");
+        assertEquals("bio", testExamOne.getSub());
+        testExamOne.setSubject("math");
+        assertEquals("math", testExamOne.getSub());
+    }
 }
