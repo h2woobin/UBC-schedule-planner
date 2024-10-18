@@ -1,6 +1,7 @@
 package model;
 
 // Represent detail of exams imformation 
+//!
 public class Exam {
     private String location; // the room number or name
     private String subject; // exam subject
@@ -15,6 +16,7 @@ public class Exam {
         this.time = time;
         this.location = location;
         this.goalMark = goalMark;
+
     }
 
     public String getSub() {
