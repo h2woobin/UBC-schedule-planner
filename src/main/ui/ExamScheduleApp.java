@@ -33,7 +33,7 @@ public class ExamScheduleApp {
     public void introQuestion() {
         line();
         System.out.println("a: Add the subject and details");
-        System.out.println("b: Modify details of subject");
+        System.out.println("b: Modify details of subject or delete the subject");
         System.out.println("c: Calculate the average score and get my GPA");
         System.out.println("q: Quit the app");
         line();
@@ -115,13 +115,17 @@ public class ExamScheduleApp {
     }
 
     public void getExam() {
-        for (Exam E : examList) {
-            line();
-            System.out.println("Subject: " + E.getSub());
-            System.out.println("Date: " + E.getDate());
-            System.out.println("Time: " + E.getTime());
-            System.out.println("Location: " + E.getLocation());
-            System.out.println("Goal Mark: " + E.getGoalMark());
+        if(!examList.isEmpty()){
+            for (Exam E : examList) {
+                line();
+                System.out.println("Subject: " + E.getSub());
+                System.out.println("Date: " + E.getDate());
+                System.out.println("Time: " + E.getTime());
+                System.out.println("Location: " + E.getLocation());
+                System.out.println("Goal Mark: " + E.getGoalMark());
+            }
+        }else{
+            System.out.println("List is Empty!");
         }
     }
 
@@ -143,6 +147,7 @@ public class ExamScheduleApp {
             System.out.print("Which subject do you want to delete: ");
             String delSub = scanner.nextLine();
             boolean isDeleted = examControl.removeExam(delSub);
+            getExam();
             if (!isDeleted) {
                 System.out.println("Can't find " + delSub + " subject!");
             }
