@@ -108,6 +108,20 @@ public class ExamScheduleApp {
             System.out.println("Do you want to add more? (Y/N): ");
             String answer = scanner.nextLine();
             state = answer;
+            if (state.equalsIgnoreCase("n")) {
+                getExam();
+            }
+        }
+    }
+
+    public void getExam() {
+        for (Exam E : examList) {
+            line();
+            System.out.println("Subject: " + E.getSub());
+            System.out.println("Date: " + E.getDate());
+            System.out.println("Time: " + E.getTime());
+            System.out.println("Location: " + E.getLocation());
+            System.out.println("Goal Mark: " + E.getGoalMark());
         }
     }
 
@@ -145,6 +159,7 @@ public class ExamScheduleApp {
         System.out.print("Subject:1 \nLocation:2 \nDate:3 \ntime:4 \ngoalMark:5 \nEnter the number:  ");
         int modNum = scanner.nextInt();
         scanner.nextLine();
+
         boolean found = false;
         for (Exam exam : examList) {
             if (exam.getSub().equalsIgnoreCase(modSub)) {
@@ -182,6 +197,7 @@ public class ExamScheduleApp {
             }
         }
     }
+
     /*
      * EFFECTS: Users can put their grade and it will calculate their average score.
      * Also, it will give user their gpa.
