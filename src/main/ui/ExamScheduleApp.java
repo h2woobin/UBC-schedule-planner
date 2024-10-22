@@ -1,5 +1,6 @@
 package ui;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -12,6 +13,7 @@ public class ExamScheduleApp {
     private boolean runningApp = true;
     private List<Exam> examList;
     private ExamControl.InnerExamControl examControl;
+    private String gpa;
 
     // EFFECTS: run the application
     public ExamScheduleApp() {
@@ -59,11 +61,7 @@ public class ExamScheduleApp {
             } else if (alphabet.equals("b")) {
                 delOrModSubject();
             } else if (alphabet.equals("c")) {
-                double ave = averageScore();
-                String gpa = gpa();
-
-                System.out.println("Your average score is: " + ave);
-                System.out.println("Your gpa is: " + gpa);
+                gpa();
             } else if (alphabet.equals("q")) {
                 quitApp();
             } else {
@@ -116,13 +114,13 @@ public class ExamScheduleApp {
 
     public void getExam() {
         if (!examList.isEmpty()) {
-            for (Exam E : examList) {
+            for (Exam examObject : examList) {
                 line();
-                System.out.println("Subject: " + E.getSub());
-                System.out.println("Date: " + E.getDate());
-                System.out.println("Time: " + E.getTime());
-                System.out.println("Location: " + E.getLocation());
-                System.out.println("Goal Mark: " + E.getGoalMark());
+                System.out.println("Subject: " + examObject.getSub());
+                System.out.println("Date: " + examObject.getDate());
+                System.out.println("Time: " + examObject.getTime());
+                System.out.println("Location: " + examObject.getLocation());
+                System.out.println("Goal Mark: " + examObject.getGoalMark());
             }
         } else {
             line();
@@ -209,29 +207,49 @@ public class ExamScheduleApp {
      */
     public double averageScore() {
         double totalMark = 0;
-        for (int count = 0; count < examList.size(); count++) {
-            System.out.println("Enter the mark you got: ");
-            double actualMark = scanner.nextDouble();
-            totalMark = totalMark + actualMark;
+
+        for (int i = 0; i < examList.size(); i++) {
+            boolean validInput = false;
+
+            while (!validInput) {
+                try {
+                    System.out.print("Enter the mark you got (ex.85.00): ");
+                    double actualMark = scanner.nextDouble();
+                    scanner.nextLine();
+
+                    if (actualMark < 0 || actualMark > 100) {
+                        System.out.println("Please enter a mark between 0 and 100.");
+                    } else {
+                        totalMark += actualMark;
+                        validInput = true;
+                    }
+
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Please enter a valid number (e.g., 85.00).");
+                    scanner.next();
+                }
+            }
         }
+
         double averageScore = totalMark / examList.size();
         return averageScore;
     }
 
-    public String gpa() {
-        String gpa = "null";
-        if (averageScore() >= 90) {
+    public void gpa() {
+        double aveScore = averageScore();
+        if (aveScore >= 90) {
             gpa = "A+";
-        } else if (averageScore() >= 80 && averageScore() < 70) {
+        } else if (aveScore >= 80) {
             gpa = "B+";
-        } else if (averageScore() >= 70 && averageScore() < 60) {
+        } else if (aveScore >= 70) {
             gpa = "C+";
-        } else if (averageScore() >= 60 && averageScore() < 50) {
+        } else if (aveScore >= 60) {
             gpa = "D";
-        } else if (averageScore() < 50) {
+        } else {
             gpa = "F";
         }
-        return gpa;
+        System.out.println("Your average score is: " + aveScore);
+        System.out.println("Your gpa is: " + gpa);
     }
 
     /*
