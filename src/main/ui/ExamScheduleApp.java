@@ -62,12 +62,12 @@ public class ExamScheduleApp {
                 double ave = averageScore();
                 String gpa = gpa();
 
-                System.out.print("Your average score is: " + ave);
-                System.out.print("Your gpa is: " + gpa);
+                System.out.println("Your average score is: " + ave);
+                System.out.println("Your gpa is: " + gpa);
             } else if (alphabet.equals("q")) {
                 quitApp();
             } else {
-                System.out.print("You put the wrong alphabet!");
+                System.out.println("You put the wrong alphabet!");
             }
         }
 
@@ -115,7 +115,7 @@ public class ExamScheduleApp {
     }
 
     public void getExam() {
-        if(!examList.isEmpty()){
+        if (!examList.isEmpty()) {
             for (Exam E : examList) {
                 line();
                 System.out.println("Subject: " + E.getSub());
@@ -124,7 +124,8 @@ public class ExamScheduleApp {
                 System.out.println("Location: " + E.getLocation());
                 System.out.println("Goal Mark: " + E.getGoalMark());
             }
-        }else{
+        } else {
+            line();
             System.out.println("List is Empty!");
         }
     }
@@ -161,7 +162,7 @@ public class ExamScheduleApp {
     public void modSub() {
         System.out.println("Which subject do you want to modify: ");
         String modSub = scanner.nextLine();
-        System.out.print("Subject:1 \nLocation:2 \nDate:3 \ntime:4 \ngoalMark:5 \nEnter the number:  ");
+        System.out.print("#1: Subject's name \n#2: Location \n#3: Date \n#4: Time \n#5: Goal Mark\n");
         int modNum = scanner.nextInt();
         scanner.nextLine();
 
@@ -196,11 +197,10 @@ public class ExamScheduleApp {
                         System.out.println("Invalid selection");
                         break;
                 }
-            }
-            if (!found) {
-                System.out.println("Can't find " + modSub + " subject!");
+                getExam();
             }
         }
+        System.out.println(modSub + "'s information has been changed. ");
     }
 
     /*
