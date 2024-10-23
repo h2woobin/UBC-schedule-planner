@@ -1,5 +1,7 @@
 package model;
 
+import org.json.JSONObject;
+
 // Represent detail of exams imformation 
 //!
 public class Exam {
@@ -57,5 +59,26 @@ public class Exam {
 
     public void setGoalMark(int goalMark) {
         this.goalMark = goalMark;
+    }
+
+    public JSONObject toJson(){
+        JSONObject json = new JSONObject();
+        json.put("Subject", subject);
+        json.put("Date", date);
+        json.put("Time", time);
+        json.put("Location", location);
+        json.put("Goal Mark", goalMark);
+        
+        return json;
+    }
+
+    public static Exam fromJson (JSONObject jsonObject){
+        String subject = jsonObject.getString("Subject");
+        int time = jsonObject.getInt("Time");
+        int date = jsonObject.getInt("Date");
+        String location = jsonObject.getString("Location");
+        int goalMark = jsonObject.getInt("Goal Mark");
+
+        return new Exam(subject, date, time, location, goalMark);
     }
 }
