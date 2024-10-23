@@ -13,8 +13,9 @@ As a student, exams are always following me since I was in Korea. In our country
 
 ## User Stories: <br>
 - As a user, I want to add subjects that I will write a test <br>
-- As a user, I want to be able to delete subjects that were previously created <br>
-- As a user, I want to be able to list test day, test time, location, and goal mark subject by subject <br> 0
-- As a user, I want to be able to load a file test-timetable <br>
-- As a user, I want to be able to calculate my test scores <br> 0
-- As a user, I want to be able to get my GPA <br> 0
+- As a user, I want to be able to delete all information about the subject that were previously created <br>
+- As a user, I want to be able to list test day, test time, location, and goal mark subject by subject <br> 
+- As a user, I want to be able to calculate my test scores <br> 
+- As a user, I want to be able to get my GPA <br> 
+- As a user, I want to be able to save my exam list to file 
+- As a user, I want to be able to be able to load my exam list from file
