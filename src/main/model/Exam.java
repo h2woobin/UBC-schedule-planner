@@ -2,9 +2,11 @@ package model;
 
 import org.json.JSONObject;
 
+import persistence.Writable;
+
 // Represent detail of exams imformation 
 //!
-public class Exam {
+public class Exam implements Writable{
     private String location; // the room number or name
     private String subject; // exam subject
     private int date; // Date of exam
@@ -60,7 +62,10 @@ public class Exam {
     public void setGoalMark(int goalMark) {
         this.goalMark = goalMark;
     }
-
+    
+    
+    
+    @Override
     public JSONObject toJson(){
         JSONObject json = new JSONObject();
         json.put("Subject", subject);
@@ -68,10 +73,10 @@ public class Exam {
         json.put("Time", time);
         json.put("Location", location);
         json.put("Goal Mark", goalMark);
-        
         return json;
     }
 
+    // 위 코드와 반대. 역직렬화 
     public static Exam fromJson (JSONObject jsonObject){
         String subject = jsonObject.getString("Subject");
         int time = jsonObject.getInt("Time");
