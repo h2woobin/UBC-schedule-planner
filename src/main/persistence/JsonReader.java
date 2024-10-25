@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 import java.util.List;
+import java.util.ArrayList;
 
 import org.json.*;
 
@@ -22,10 +23,10 @@ public class JsonReader {
 
     // EFFECTS: reads workroom from file and returns it;
     // throws IOException if an error occurs reading data from file
-    public Exam read() throws IOException {
+    public List<Exam> read() throws IOException {
         String jsonData = readFile(source);  
         JSONObject jsonObject = new JSONObject(jsonData);
-        return parseExam(jsonObject);
+        return parseExams(jsonObject);
     }
 
     // EFFECTS: reads source file as string and returns it
@@ -53,13 +54,15 @@ public class JsonReader {
 
     // MODIFIES: wr
     // EFFECTS: parses thingies from JSON object and adds them to workroom
-    private void addExams(List<Exam> examList, JSONObject jsonObject) {
+    private List<Exam> parseExams(JSONObject jsonObject) {
+        List<Exam> exams = new ArrayList();
         JSONArray jsonArray = jsonObject.getJSONArray("exams"); /////
         for (Object json : jsonArray) {
             JSONObject nextExamJson = (JSONObject) json;
             Exam exam = parseExam(nextExamJson);
-            examList.add(exam);
+            exams.add(exam);
         }
-    }
+        return exams;
+    } 
 
 }
