@@ -1,5 +1,6 @@
 package model;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
@@ -28,6 +29,19 @@ public class ExamTest {
         assertEquals(15, testExamTwo.getTime());
         assertEquals(85, testExamTwo.getGoalMark());
         assertEquals("B015", testExamOne.getLocation());
+
+        testExamOne.setDate(240505);
+        assertEquals(240505, testExamOne.getDate());
+
+        testExamOne.setLocation("C123");
+        assertEquals("C123", testExamOne.getLocation());
+
+        testExamOne.setGoalMark(99);
+        assertEquals(99, testExamOne.getGoalMark());
+
+        testExamOne.setTime(13);
+        assertEquals(13, testExamOne.getTime());
+        
     }
 
     @Test
@@ -37,6 +51,7 @@ public class ExamTest {
         assertEquals(2, listOfExam.size());
         examControl.removeExam("chem");
         assertEquals(1, listOfExam.size());
+        assertFalse(examControl.removeExam("phys"));
     }
 
     @Test
