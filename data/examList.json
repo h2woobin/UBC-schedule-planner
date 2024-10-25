@@ -1,7 +1,7 @@
-{
-    "Goal Mark": 99,
+{"exams": [{
     "Time": 11,
-    "Subject": "cpsc",
-    "Date": 240101,
-    "Location": "B202"
-}
+    "Subject": "ling",
+    "Date": 22222,
+    "Goal Mark": 85,
+    "Location": "123"
+}]}

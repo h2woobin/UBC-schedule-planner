@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 // Handle all exam lists that user made.
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class ExamControl {
 
     public class InnerExamControl {
@@ -31,5 +34,21 @@ public class ExamControl {
             }
             return false;
         }
+
+        public void addExam(Exam exam){
+            examList.add(exam);
+        }
+
+        public JSONObject toJson(){
+            JSONArray jsonArray = new JSONArray();
+            for(Exam exam:examList){
+                jsonArray.put(exam.toJson());
+            }
+
+            JSONObject json = new JSONObject();
+            json.put("exams",jsonArray);
+            return json;
+        }
+
     }
 }
