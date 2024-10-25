@@ -53,7 +53,7 @@ public class JsonReader {
     }
 
     // MODIFIES: wr
-    // EFFECTS: parses thingies from JSON object and adds them to exam
+    // EFFECTS: parses exam from JSON object and adds them to exams
     private List<Exam> parseExams(JSONObject jsonObject) {
         List<Exam> exams = new ArrayList();
         JSONArray jsonArray = jsonObject.getJSONArray("exams");
