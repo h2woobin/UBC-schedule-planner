@@ -76,14 +76,4 @@ public class Exam implements Writable{
         return json;
     }
 
-    // 위 코드와 반대. 역직렬화 
-    public static Exam fromJson (JSONObject jsonObject){
-        String subject = jsonObject.getString("Subject");
-        int time = jsonObject.getInt("Time");
-        int date = jsonObject.getInt("Date");
-        String location = jsonObject.getString("Location");
-        int goalMark = jsonObject.getInt("Goal Mark");
-
-        return new Exam(subject, date, time, location, goalMark);
-    }
 }
