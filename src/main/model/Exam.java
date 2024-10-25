@@ -8,7 +8,7 @@ import persistence.Writable;
 
 // Represent detail of exams imformation 
 //!
-public class Exam implements Writable{
+public class Exam implements Writable {
     private String location; // the room number or name
     private String subject; // exam subject
     private int date; // Date of exam
@@ -64,11 +64,10 @@ public class Exam implements Writable{
     public void setGoalMark(int goalMark) {
         this.goalMark = goalMark;
     }
-    
-    
+
     @Override
-    public JSONObject toJson(){
-        JSONObject json = new JSONObject(new LinkedHashMap<>());
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
         json.put("Subject", subject);
         json.put("Date", date);
         json.put("Time", time);

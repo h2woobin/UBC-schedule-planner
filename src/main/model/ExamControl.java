@@ -35,18 +35,18 @@ public class ExamControl {
             return false;
         }
 
-        public void addExam(Exam exam){
+        public void addExam(Exam exam) {
             examList.add(exam);
         }
 
-        public JSONObject toJson(){
+        public JSONObject toJson() {
             JSONArray jsonArray = new JSONArray();
-            for(Exam exam:examList){
+            for (Exam exam : examList) {
                 jsonArray.put(exam.toJson());
             }
 
             JSONObject json = new JSONObject();
-            json.put("exams",jsonArray);
+            json.put("exams", jsonArray);
             return json;
         }
 

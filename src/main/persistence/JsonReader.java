@@ -24,7 +24,7 @@ public class JsonReader {
     // EFFECTS: reads exam from file and returns it;
     // throws IOException if an error occurs reading data from file
     public List<Exam> read() throws IOException {
-        String jsonData = readFile(source);  
+        String jsonData = readFile(source);
         JSONObject jsonObject = new JSONObject(jsonData);
         return parseExams(jsonObject);
     }
@@ -47,7 +47,7 @@ public class JsonReader {
         int date = jsonObject.getInt("Date");
         String location = jsonObject.getString("Location");
         int goalMark = jsonObject.getInt("Goal Mark");
-        
+
         Exam ex = new Exam(subject, date, time, location, goalMark);
         return ex;
     }
@@ -56,13 +56,13 @@ public class JsonReader {
     // EFFECTS: parses thingies from JSON object and adds them to exam
     private List<Exam> parseExams(JSONObject jsonObject) {
         List<Exam> exams = new ArrayList();
-        JSONArray jsonArray = jsonObject.getJSONArray("exams"); 
+        JSONArray jsonArray = jsonObject.getJSONArray("exams");
         for (Object json : jsonArray) {
             JSONObject nextExamJson = (JSONObject) json;
             Exam exam = parseExam(nextExamJson);
             exams.add(exam);
         }
         return exams;
-    } 
+    }
 
 }
