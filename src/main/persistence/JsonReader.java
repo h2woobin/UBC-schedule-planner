@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 import org.json.*;
 
-// Represents a reader that reads workroom from JSON data stored in file
+// Represents a reader that reads Exam from JSON data stored in file
 public class JsonReader {
     private String source;
 
@@ -21,7 +21,7 @@ public class JsonReader {
         this.source = source;
     }
 
-    // EFFECTS: reads workroom from file and returns it;
+    // EFFECTS: reads exam from file and returns it;
     // throws IOException if an error occurs reading data from file
     public List<Exam> read() throws IOException {
         String jsonData = readFile(source);  
@@ -53,10 +53,10 @@ public class JsonReader {
     }
 
     // MODIFIES: wr
-    // EFFECTS: parses thingies from JSON object and adds them to workroom
+    // EFFECTS: parses thingies from JSON object and adds them to exam
     private List<Exam> parseExams(JSONObject jsonObject) {
         List<Exam> exams = new ArrayList();
-        JSONArray jsonArray = jsonObject.getJSONArray("exams"); /////
+        JSONArray jsonArray = jsonObject.getJSONArray("exams"); 
         for (Object json : jsonArray) {
             JSONObject nextExamJson = (JSONObject) json;
             Exam exam = parseExam(nextExamJson);

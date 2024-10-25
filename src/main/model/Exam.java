@@ -1,5 +1,7 @@
 package model;
 
+import java.util.LinkedHashMap;
+
 import org.json.JSONObject;
 
 import persistence.Writable;
@@ -64,10 +66,9 @@ public class Exam implements Writable{
     }
     
     
-    
     @Override
     public JSONObject toJson(){
-        JSONObject json = new JSONObject();
+        JSONObject json = new JSONObject(new LinkedHashMap<>());
         json.put("Subject", subject);
         json.put("Date", date);
         json.put("Time", time);

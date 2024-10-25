@@ -1,11 +1,18 @@
 package ui;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+
+import org.json.JSONObject;
+
 import model.Exam;
 import model.ExamControl;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
 // Application for making exam schedules
 public class ExamScheduleApp {
@@ -15,12 +22,46 @@ public class ExamScheduleApp {
     private ExamControl.InnerExamControl examControl;
     private String gpa;
 
+    private static final String EXAMLIST_FILE = "./data/examList.json"; //?
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
+
     // EFFECTS: run the application
-    public ExamScheduleApp() {
+    public ExamScheduleApp() throws FileNotFoundException {
         ExamControl ouExamControl = new ExamControl();
         examControl = ouExamControl.new InnerExamControl();
+        jsonReader = new JsonReader(EXAMLIST_FILE);
+        jsonWriter = new JsonWriter(EXAMLIST_FILE);
         this.examList = examControl.getExamList();
         runApp();
+    }
+
+    // EFFECTS: saves the Exam to file
+    public void saveFile(ExamControl.InnerExamControl examControl){
+        line();
+        try{
+            JSONObject json = examControl.toJson();
+
+            jsonWriter.open();
+            jsonWriter.write(json);
+            jsonWriter.close();
+            System.out.println("Saved list to "  + EXAMLIST_FILE);
+        } catch(FileNotFoundException e){
+            System.out.println("No file or can't save the file: ");
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads Exam from file
+    private void loadExam() {
+        line();
+        try {
+            List<Exam> exams = jsonReader.read();
+            examList.addAll(exams);
+            System.out.println("Loaded exam list from " + EXAMLIST_FILE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + EXAMLIST_FILE);
+        }
     }
 
     // EFFECTS: processes user input
@@ -37,6 +78,7 @@ public class ExamScheduleApp {
         System.out.println("a: Add the subject and details");
         System.out.println("b: Modify details of subject or delete the subject");
         System.out.println("c: Calculate the average score and get my GPA");
+        System.out.println("l: Load the exam file");
         System.out.println("q: Quit the app");
         line();
     }
@@ -53,7 +95,7 @@ public class ExamScheduleApp {
 
         while (!alphabet.equalsIgnoreCase("q")) {
             introQuestion();
-            System.out.println("Select an alphabet you want to do");
+            System.out.print("Select an alphabet you want to do: ");
             alphabet = scanner.nextLine();
 
             if (alphabet.equals("a")) {
@@ -62,6 +104,8 @@ public class ExamScheduleApp {
                 delOrModSubject();
             } else if (alphabet.equals("c")) {
                 gpa();
+            } else if(alphabet.equals("l")){
+                loadExam();
             } else if (alphabet.equals("q")) {
                 quitApp();
             } else {
@@ -99,7 +143,10 @@ public class ExamScheduleApp {
             scanner.nextLine();
 
             Exam examDetail = new Exam(subject, date, time, location, goalMark);
-            examList.add(examDetail);
+            //examList.add(examDetail);
+
+            examControl.getExamList().add(examDetail);
+            saveFile(examControl);
 
             line();
 
@@ -147,6 +194,8 @@ public class ExamScheduleApp {
             String delSub = scanner.nextLine();
             boolean isDeleted = examControl.removeExam(delSub);
             getExam();
+            saveFile(examControl);
+            System.out.println("Exam modified and saved.");
             if (!isDeleted) {
                 System.out.println("Can't find " + delSub + " subject!");
             }
@@ -198,7 +247,9 @@ public class ExamScheduleApp {
                 getExam();
             }
         }
+        saveFile(examControl);
         System.out.println(modSub + "'s information has been changed. ");
+        System.out.println("Exam modified and saved.");
     }
 
     /*

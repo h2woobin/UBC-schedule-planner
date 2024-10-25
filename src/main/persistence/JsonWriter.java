@@ -1,6 +1,5 @@
 package persistence;
 
-import model.Exam;
 import org.json.JSONObject;
 
 import java.io.*;
@@ -16,8 +15,8 @@ public class JsonWriter {
     }
 
     // MODIFIES: this
-    // EFFECTS: opens writer; throws FileNotFoundException if destination file cannot
-    // be opened for writing
+    // EFFECTS: opens writer; throws FileNotFoundException if destination file
+    // cannot be opened for writing
     public void open() throws FileNotFoundException {
         File file = new File(destination);
         file.getParentFile().mkdirs();
@@ -25,9 +24,8 @@ public class JsonWriter {
     }
 
     // MODIFIES: this
-    // EFFECTS: writes JSON representation of workroom to file
-    public void write(Exam ex) {
-        JSONObject json = ex.toJson();
+    // EFFECTS: writes JSON representation of Exam to file
+    public void write(JSONObject json) {
         saveToFile(json.toString(TAB));
     }
 
