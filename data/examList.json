@@ -1,16 +1,1 @@
-{"exams": [
-    {
-        "Time": 123456,
-        "Subject": "chem",
-        "Date": 12356,
-        "Goal Mark": 78,
-        "Location": "456"
-    },
-    {
-        "Time": 456,
-        "Subject": "chem",
-        "Date": 789456,
-        "Goal Mark": 12,
-        "Location": "123"
-    }
-]}
+{"exams": []}

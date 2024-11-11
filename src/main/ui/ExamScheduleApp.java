@@ -6,7 +6,6 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-
 import org.json.JSONObject;
 
 import model.Exam;
@@ -22,7 +21,7 @@ public class ExamScheduleApp {
     private ExamControl.InnerExamControl examControl;
     private String gpa;
 
-    private static final String EXAMLIST_FILE = "./data/examList.json"; //?
+    private static final String EXAMLIST_FILE = "./data/examList.json"; /
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
 
@@ -33,20 +32,20 @@ public class ExamScheduleApp {
         jsonReader = new JsonReader(EXAMLIST_FILE);
         jsonWriter = new JsonWriter(EXAMLIST_FILE);
         this.examList = examControl.getExamList();
-        runApp();
+        runApp()
     }
 
     // EFFECTS: saves the Exam to file
-    public void saveFile(ExamControl.InnerExamControl examControl){
+    public void saveFile(ExamControl.InnerExamControl examControl) {
         line();
-        try{
+        try {
             JSONObject json = examControl.toJson();
 
             jsonWriter.open();
             jsonWriter.write(json);
             jsonWriter.close();
-            System.out.println("Saved list to "  + EXAMLIST_FILE);
-        } catch(FileNotFoundException e){
+            System.out.println("Saved list to " + EXAMLIST_FILE);
+        } catch (FileNotFoundException e) {
             System.out.println("No file or can't save the file: ");
         }
     }
@@ -104,7 +103,7 @@ public class ExamScheduleApp {
                 delOrModSubject();
             } else if (alphabet.equals("c")) {
                 gpa();
-            } else if(alphabet.equals("l")){
+            } else if (alphabet.equals("l")) {
                 loadExam();
             } else if (alphabet.equals("q")) {
                 quitApp();
@@ -143,7 +142,6 @@ public class ExamScheduleApp {
             scanner.nextLine();
 
             Exam examDetail = new Exam(subject, date, time, location, goalMark);
-            //examList.add(examDetail);
 
             examControl.getExamList().add(examDetail);
             saveFile(examControl);
@@ -226,7 +224,7 @@ public class ExamScheduleApp {
                     case 2:
                         System.out.println("Enter new location: ");
                         String newLocation = scanner.nextLine();
-                        exam.setSubject(newLocation);
+                        exam.setLocation(newLocation);
                         break;
                     case 3:
                         System.out.println("Enter new date (YYMMDD): ");
