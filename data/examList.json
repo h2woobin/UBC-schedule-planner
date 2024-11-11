@@ -1,1 +1,7 @@
-{"exams": []}
+{"exams": [{
+    "Goal Mark": 85,
+    "Time": 11,
+    "Subject": "chem",
+    "Date": 240101,
+    "Location": "B101"
+}]}

@@ -21,7 +21,7 @@ public class ExamScheduleApp {
     private ExamControl.InnerExamControl examControl;
     private String gpa;
 
-    private static final String EXAMLIST_FILE = "./data/examList.json"; /
+    private static final String EXAMLIST_FILE = "./data/examList.json"; 
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
 
@@ -32,7 +32,7 @@ public class ExamScheduleApp {
         jsonReader = new JsonReader(EXAMLIST_FILE);
         jsonWriter = new JsonWriter(EXAMLIST_FILE);
         this.examList = examControl.getExamList();
-        runApp()
+        runApp();
     }
 
     // EFFECTS: saves the Exam to file
@@ -144,7 +144,12 @@ public class ExamScheduleApp {
             Exam examDetail = new Exam(subject, date, time, location, goalMark);
 
             examControl.getExamList().add(examDetail);
-            saveFile(examControl);
+
+            System.out.println("Do you want to save it? (Y/N)");
+            String saveIt = scanner.nextLine();
+            if(saveIt.equalsIgnoreCase("Y")){
+                saveFile(examControl);
+            }
 
             line();
 
@@ -156,6 +161,7 @@ public class ExamScheduleApp {
             }
         }
     }
+
 
     public void getExam() {
         if (!examList.isEmpty()) {
