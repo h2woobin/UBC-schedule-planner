@@ -11,7 +11,6 @@ import org.json.JSONObject;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
-
 public class ExamScheduleApp {
     private Scanner scanner = new Scanner(System.in);
     private boolean runningApp = true;
@@ -21,6 +20,7 @@ public class ExamScheduleApp {
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
 
+    // EFFECTS: reset all constracter when user quite the app
     public ExamScheduleApp() throws FileNotFoundException {
         examControl = new ExamControl();
         jsonReader = new JsonReader(EXAMLIST_FILE);
@@ -28,6 +28,7 @@ public class ExamScheduleApp {
         runApp();
     }
 
+    // EFFECTS: run the examSchedule app
     public void runApp() throws FileNotFoundException {
         while (this.runningApp == true) {
             System.out.println("Wellcome to the schedule app.");
@@ -35,6 +36,7 @@ public class ExamScheduleApp {
         }
     }
 
+    // EFFECTS: save exam as a data file
     public void saveFile(ExamControl examControl) {
         line();
         try {
@@ -62,6 +64,8 @@ public class ExamScheduleApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: ask user click the alphabet which user wants to do 
     public void intro() {
         String alphabet = "";
 
@@ -93,6 +97,7 @@ public class ExamScheduleApp {
 
     }
 
+    // EFFECTS: show the intro question to user
     public void introQuestion() {
         line();
         System.out.println("a: Add the subject and details");
@@ -105,7 +110,8 @@ public class ExamScheduleApp {
         System.out.println("q: Quit the app");
         line();
     }
-
+    // MODIFIES: this
+    // EFFECTS: get information about subject and save to the list 
     public void addSubject() {
         String state = "Y";
 
@@ -137,6 +143,8 @@ public class ExamScheduleApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: ask user delete or modify subject and delete or change infor
     public void changeImfor() {
         System.out.println("Press the alphabet -> Delete (D) or Modify (M)/: ");
         String alpha = scanner.nextLine();
@@ -147,10 +155,10 @@ public class ExamScheduleApp {
             System.out.print("Which subject do you want to delete: ");
             String delSub = scanner.nextLine();
             examControl.deleteSubject(delSub);
-            System.out.println(delSub + "is deleted.");
+            System.out.println(delSub + " is deleted.");
 
         } else if (alpha.equalsIgnoreCase("M")) {
-            System.out.println("Which subject do you want to modify: ");
+            System.out.print("Which subject do you want to modify: ");
             String modSub = scanner.nextLine();
             System.out.print("#1: Subject's name \n#2: Location \n#3: Date \n#4: Time \n#5: Goal Mark\n");
             int modNum = scanner.nextInt();
@@ -163,6 +171,8 @@ public class ExamScheduleApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: ask user delete or modify subject and delete or change infor
     public void modifySubject(String modSub, int modNum) {
         for (Exam exam : examControl.getExamList()) {
             if (exam.getSub().equalsIgnoreCase(modSub)) {
@@ -197,6 +207,8 @@ public class ExamScheduleApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: get user's actual 
     public void addActualMark() {
         for (Exam e : examControl.getExamList()) {
             System.out.print(e.getSub() + ": ");
@@ -207,6 +219,7 @@ public class ExamScheduleApp {
         System.out.println("Your marks have been added.");
     }
 
+    // EFFECTS: give users the exam List
     public void getExam() {
         if (!examControl.getExamList().isEmpty()) {
             for (Exam examObject : examControl.getExamList()) {
@@ -223,6 +236,8 @@ public class ExamScheduleApp {
         }
     }
 
+    // MODIFIES: runningApp
+    // EFFECTS: quit the app
     public void quitApp() {
         System.out.println("Thank you for using our app.");
         System.out.println("Fake it till make it!");
