@@ -20,6 +20,8 @@ public class ExamControl implements Writable {
             examList.add(examObject);
         }
     }
+
+    // REQUIRED: examList.contains(subject)
     // EFFECTS: choose the subject which user wants to delete and delete.
     public void deleteSubject(String subject) {
         for (Exam e : examList) {
@@ -28,6 +30,7 @@ public class ExamControl implements Writable {
             }
         }
     }
+    // REQUIRED: examList.contains(subject)
     // EFFECTS: add user's actual mark for calculate their gpa
     public void addActualMark(String subject, int actMark) {
         for (Exam e : examList) {
@@ -36,6 +39,7 @@ public class ExamControl implements Writable {
             }
         }
     }
+    // REQUIRED: !examList.isEmpty()
     // EFFECTS: calculate user's average score
     public double averageScore() {
         double total = 0;
@@ -44,6 +48,7 @@ public class ExamControl implements Writable {
         }
         return total / examList.size();
     }
+    // REQUIRED: averageScore() != null
     // EFFECTS: calculate user's gpa and return gpa as String type
     public String gpa() {
         String gpa = "";
@@ -61,6 +66,7 @@ public class ExamControl implements Writable {
         }
         return gpa;
     }
+
     // EFFECTS: get exam List 
     public List<Exam> getExamList() {
         return examList;
