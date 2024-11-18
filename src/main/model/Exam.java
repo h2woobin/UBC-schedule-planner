@@ -7,7 +7,6 @@ import org.json.JSONObject;
 import persistence.Writable;
 
 // Represent detail of exams imformation 
-//!
 public class Exam implements Writable {
     private String location; // the room number or name
     private String subject; // exam subject
