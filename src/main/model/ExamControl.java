@@ -12,7 +12,7 @@ public class ExamControl implements Writable {
     private List<Exam> examList = new ArrayList<>();
     private Exam examObject;
 
-
+    // EFFECTS: add imformation about subject and add it to the list
     public void addSubject(String subject, int date, int time, String location, int goalMark) {
         examObject = new Exam(subject, date, time, location, goalMark);
 
@@ -20,7 +20,7 @@ public class ExamControl implements Writable {
             examList.add(examObject);
         }
     }
-
+    // EFFECTS: choose the subject which user wants to delete and delete.
     public void deleteSubject(String subject) {
         for (Exam e : examList) {
             if (e.getSub().equals(subject)) {
@@ -28,7 +28,7 @@ public class ExamControl implements Writable {
             }
         }
     }
-
+    // EFFECTS: add user's actual mark for calculate their gpa
     public void addActualMark(String subject, int actMark) {
         for (Exam e : examList) {
             if (e.getSub().equals(subject)) {
@@ -36,7 +36,7 @@ public class ExamControl implements Writable {
             }
         }
     }
-
+    // EFFECTS: calculate user's average score
     public double averageScore() {
         double total = 0;
         for (Exam e : examList) {
@@ -44,7 +44,7 @@ public class ExamControl implements Writable {
         }
         return total / examList.size();
     }
-
+    // EFFECTS: calculate user's gpa and return gpa as String type
     public String gpa() {
         String gpa = "";
         double average = averageScore();
@@ -61,7 +61,7 @@ public class ExamControl implements Writable {
         }
         return gpa;
     }
-
+    // EFFECTS: get exam List 
     public List<Exam> getExamList() {
         return examList;
     }
