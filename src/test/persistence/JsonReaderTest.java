@@ -13,8 +13,8 @@ public class JsonReaderTest extends JsonTest {
 
     @Test
     void testReaderNonExistentFile() {
-        ExamControl ouExamControl = new ExamControl();
-        examControl = ouExamControl.new InnerExamControl();
+        // ExamControl ouExamControl = new ExamControl();
+        // examControl = ouExamControl.new InnerExamControl();
 
         JsonReader reader = new JsonReader("./data/noSuchFile.json");
         try {

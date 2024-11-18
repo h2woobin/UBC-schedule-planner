@@ -63,6 +63,10 @@ public class ExamScheduleApp {
         }
     }
 
+    public void printExamList(){
+        getExam();
+    }
+
     // EFFECTS: processes user input
     public void runApp() {
         while (this.runningApp == true) {
@@ -78,6 +82,7 @@ public class ExamScheduleApp {
         System.out.println("b: Modify details of subject or delete the subject");
         System.out.println("c: Calculate the average score and get my GPA");
         System.out.println("l: Load the exam file");
+        System.out.println("p: Print the eaxm list");
         System.out.println("q: Quit the app");
         line();
     }
@@ -105,6 +110,8 @@ public class ExamScheduleApp {
                 gpa();
             } else if (alphabet.equals("l")) {
                 loadExam();
+            } else if (alphabet.equals("p")) {
+                printExamList();
             } else if (alphabet.equals("q")) {
                 quitApp();
             } else {
@@ -119,7 +126,7 @@ public class ExamScheduleApp {
      * After user done putting information, application will ask add more or not.
      * If users chose "Y", it will keep ask adding information, otherwise stop.
      */
-    public void addSubject() {
+    public void addSubject() { // 옮김
         String state = "Y";
 
         while (state.equalsIgnoreCase("Y")) {
@@ -144,6 +151,8 @@ public class ExamScheduleApp {
             Exam examDetail = new Exam(subject, date, time, location, goalMark);
 
             examControl.getExamList().add(examDetail);
+            
+            line();
 
             System.out.println("Do you want to save it? (Y/N)");
             String saveIt = scanner.nextLine();
