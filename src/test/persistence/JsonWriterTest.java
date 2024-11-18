@@ -13,8 +13,7 @@ import model.Exam;
 import model.ExamControl;
 
 public class JsonWriterTest extends JsonTest {
-    private ExamControl.InnerExamControl examControl;
-
+    
     @Test
     void testWriterInvalidFile() {
         try {
@@ -30,15 +29,13 @@ public class JsonWriterTest extends JsonTest {
 
     @Test
     void testWriterEmptyExam() {
-        ExamControl ouExamControl = new ExamControl();
-        examControl = ouExamControl.new InnerExamControl();
-
+        ExamControl tesExamControl = new ExamControl();
+        
         try {
-            Exam exam = new Exam("cpsc", 241010, 11, "B101", 85);
-            examControl.addExam(exam);
+            tesExamControl.addSubject("cpsc", 241010, 11, "B101", 85);
 
             JsonWriter writer = new JsonWriter("./data/testWriterEmptyWorkroom.json");
-            JSONObject json = examControl.toJson();
+            JSONObject json = tesExamControl.toJson();
             writer.open();
             writer.write(json);
             writer.close();
@@ -54,7 +51,7 @@ public class JsonWriterTest extends JsonTest {
             assertEquals("B101", testExam.getLocation());
             assertEquals(85, testExam.getGoalMark());
 
-            checkExam(exam, "cpsc", 241010, 11, "B101", 85);
+            checkExam(testExam, "cpsc", 241010, 11, "B101", 85);
 
         } catch (IOException e) {
             fail("Exception should not have been thrown");
