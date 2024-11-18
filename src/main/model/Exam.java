@@ -14,6 +14,7 @@ public class Exam implements Writable {
     private int date; // Date of exam
     private int time; // Time of exam
     private int goalMark; // the mark user wants to get in their exam
+    private int actMark;
 
     // Create new Exam
     public Exam(String subject, int date, int time, String location, int goalMark) {
@@ -22,7 +23,7 @@ public class Exam implements Writable {
         this.time = time;
         this.location = location;
         this.goalMark = goalMark;
-
+        this.actMark = 0;
     }
 
     public String getSub() {
@@ -63,6 +64,14 @@ public class Exam implements Writable {
 
     public void setGoalMark(int goalMark) {
         this.goalMark = goalMark;
+    }
+
+    public int getActMark(){
+        return actMark;
+    }
+
+    public void setActMark(int actMark){
+        this.actMark = actMark;
     }
 
     @Override
