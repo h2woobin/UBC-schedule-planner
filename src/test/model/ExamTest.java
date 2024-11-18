@@ -1,65 +1,105 @@
 package model;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.List;
-
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ExamTest {
-    private Exam testExamOne;
-    private Exam testExamTwo;
-    private ExamControl.InnerExamControl examControl;
-    private List<Exam> listOfExam;
+    private ExamControl tesExamControl;
 
     @BeforeEach
     void runBefore() {
-        examControl = new ExamControl().new InnerExamControl();
-        listOfExam = examControl.getExamList();
-        testExamOne = new Exam("cpsc", 241016, 11, "B015", 85);
-        testExamTwo = new Exam("chem", 241017, 15, "B017", 85);
+        tesExamControl = new ExamControl();
     }
 
     @Test
-    void testConstruture() {
-        assertEquals("cpsc", testExamOne.getSub());
-        assertEquals(241016, testExamOne.getDate());
-        assertEquals(15, testExamTwo.getTime());
-        assertEquals(85, testExamTwo.getGoalMark());
-        assertEquals("B015", testExamOne.getLocation());
+    void testExamAndAddExam() {
+        tesExamControl.addSubject("cpsc", 241016, 11, "B015", 85);
+        tesExamControl.addSubject("chem", 241017, 15, "B017", 85);
+        assertEquals(2, tesExamControl.getExamList().size());
 
-        testExamOne.setDate(240505);
-        assertEquals(240505, testExamOne.getDate());
+        Exam examOne = tesExamControl.getExamList().get(0);
 
-        testExamOne.setLocation("C123");
-        assertEquals("C123", testExamOne.getLocation());
+        assertEquals("cpsc", examOne.getSub());
+        assertEquals(241016, examOne.getDate());
+        assertEquals(11, examOne.getTime());
+        assertEquals(85, examOne.getGoalMark());
+        assertEquals("B015", examOne.getLocation());
 
-        testExamOne.setGoalMark(99);
-        assertEquals(99, testExamOne.getGoalMark());
+        examOne.setSubject("ling");
+        assertEquals("ling", examOne.getSub());
 
-        testExamOne.setTime(13);
-        assertEquals(13, testExamOne.getTime());
+        examOne.setDate(240505);
+        assertEquals(240505, examOne.getDate());
+
+        examOne.setLocation("C123");
+        assertEquals("C123", examOne.getLocation());
+
+        examOne.setGoalMark(99);
+        assertEquals(99, examOne.getGoalMark());
+
+        examOne.setTime(13);
+        assertEquals(13, examOne.getTime());
         
     }
 
     @Test
-    void testRemoveExam() {
-        listOfExam.add(testExamOne);
-        listOfExam.add(testExamTwo);
-        assertEquals(2, listOfExam.size());
-        examControl.removeExam("chem");
-        assertEquals(1, listOfExam.size());
-        assertFalse(examControl.removeExam("phys"));
+    void testAddSameSubject(){
+        tesExamControl.addSubject("chem", 241016, 11, "B015", 85);
+        tesExamControl.addSubject("chem", 241017, 15, "B017", 85);
+
+        assertEquals(1, tesExamControl.getExamList().size());
     }
 
     @Test
-    void testChangeSubject() {
-        testExamOne.setSubject("bio");
-        assertEquals("bio", testExamOne.getSub());
-        testExamOne.setSubject("math");
-        assertEquals("math", testExamOne.getSub());
+    void testDeleteSubject() {
+        tesExamControl.addSubject("cpsc", 241016, 11, "B015", 85);
+        tesExamControl.addSubject("chem", 241017, 15, "B017", 85);
+        assertEquals(2, tesExamControl.getExamList().size());
+
+        Exam examOne = tesExamControl.getExamList().get(0);
+
+        tesExamControl.deleteSubject("cpsc");
+        assertEquals(1, tesExamControl.getExamList().size());
+
+        tesExamControl.deleteSubject("cpsc");
+        assertEquals(1, tesExamControl.getExamList().size());
     }
 
+    @Test
+    void testAddActualMark() {
+        tesExamControl.addSubject("cpsc", 241016, 11, "B015", 85);
+        tesExamControl.addSubject("chem", 241017, 15, "B017", 85);
+
+        Exam examOne = tesExamControl.getExamList().get(0);
+        assertEquals(0, examOne.getActMark());
+
+        tesExamControl.addActualMark("cpsc", 85);
+        assertEquals(85, examOne.getActMark());
+    }
+
+    @Test
+    void testAverageAndGpa() {
+        tesExamControl.addSubject("cpsc", 241016, 11, "B015", 85);
+        tesExamControl.addSubject("chem", 241017, 15, "B017", 85);
+
+        Exam examOne = tesExamControl.getExamList().get(0);
+
+        tesExamControl.addActualMark("cpsc", 85);
+        tesExamControl.addActualMark("chem", 90);
+
+        assertEquals("B+", tesExamControl.gpa());
+
+        examOne.setActMark(100);
+        assertEquals("A+", tesExamControl.gpa());
+
+        examOne.setActMark(60);
+        assertEquals("C+", tesExamControl.gpa());
+
+        examOne.setActMark(40);
+        assertEquals("D", tesExamControl.gpa());
+
+        examOne.setActMark(10);
+        assertEquals("F", tesExamControl.gpa());
+    }
 }
