@@ -1,42 +1,41 @@
 package ui;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
-
-import org.json.JSONObject;
-
 import model.Exam;
 import model.ExamControl;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.List;
+import java.util.Scanner;
+import org.json.JSONObject;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
-// Application for making exam schedules
+
 public class ExamScheduleApp {
     private Scanner scanner = new Scanner(System.in);
     private boolean runningApp = true;
-    private List<Exam> examList;
-    private ExamControl.InnerExamControl examControl;
-    private String gpa;
+    private ExamControl examControl;
 
-    private static final String EXAMLIST_FILE = "./data/examList.json"; 
+    private static final String EXAMLIST_FILE = "./data/examList.json";
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
 
-    // EFFECTS: run the application
     public ExamScheduleApp() throws FileNotFoundException {
-        ExamControl ouExamControl = new ExamControl();
-        examControl = ouExamControl.new InnerExamControl();
+        examControl = new ExamControl();
         jsonReader = new JsonReader(EXAMLIST_FILE);
         jsonWriter = new JsonWriter(EXAMLIST_FILE);
-        this.examList = examControl.getExamList();
         runApp();
     }
 
-    // EFFECTS: saves the Exam to file
-    public void saveFile(ExamControl.InnerExamControl examControl) {
+    public void runApp() throws FileNotFoundException {
+        while (this.runningApp == true) {
+            System.out.println("Wellcome to the schedule app.");
+            intro();
+        }
+    }
+
+    public void saveFile(ExamControl examControl) {
         line();
         try {
             JSONObject json = examControl.toJson();
@@ -56,44 +55,13 @@ public class ExamScheduleApp {
         line();
         try {
             List<Exam> exams = jsonReader.read();
-            examList.addAll(exams);
+            examControl.getExamList().addAll(exams);
             System.out.println("Loaded exam list from " + EXAMLIST_FILE);
         } catch (IOException e) {
             System.out.println("Unable to read from file: " + EXAMLIST_FILE);
         }
     }
 
-    public void printExamList(){
-        getExam();
-    }
-
-    // EFFECTS: processes user input
-    public void runApp() {
-        while (this.runningApp == true) {
-            System.out.println("Wellcome to the schedule app.");
-            intro();
-        }
-    }
-
-    // EFFECTS: asking to users what they want to do in this application.
-    public void introQuestion() {
-        line();
-        System.out.println("a: Add the subject and details");
-        System.out.println("b: Modify details of subject or delete the subject");
-        System.out.println("c: Calculate the average score and get my GPA");
-        System.out.println("l: Load the exam file");
-        System.out.println("p: Print the eaxm list");
-        System.out.println("q: Quit the app");
-        line();
-    }
-
-    /*
-     * EFFECTS: Repeatedly ask to users to choose an action by selecting a ~ q.
-     * - a: Add new Exam
-     * - b: Delete Exam or modify information about Exam
-     * - c: give average score and GPA
-     * - q: stop the application
-     */
     public void intro() {
         String alphabet = "";
 
@@ -105,13 +73,17 @@ public class ExamScheduleApp {
             if (alphabet.equals("a")) {
                 addSubject();
             } else if (alphabet.equals("b")) {
-                delOrModSubject();
+                changeImfor();
             } else if (alphabet.equals("c")) {
-                gpa();
+                System.out.println("Your GPA: " + examControl.gpa());
+            } else if (alphabet.equals("e")) {
+                addActualMark();
+            } else if (alphabet.equals("s")) {
+                saveFile(examControl);
             } else if (alphabet.equals("l")) {
                 loadExam();
             } else if (alphabet.equals("p")) {
-                printExamList();
+                getExam();
             } else if (alphabet.equals("q")) {
                 quitApp();
             } else {
@@ -121,115 +93,79 @@ public class ExamScheduleApp {
 
     }
 
-    /*
-     * EFFECTS: Ask user to enter information about their exam and save in examList.
-     * After user done putting information, application will ask add more or not.
-     * If users chose "Y", it will keep ask adding information, otherwise stop.
-     */
-    public void addSubject() { // 옮김
+    public void introQuestion() {
+        line();
+        System.out.println("a: Add the subject and details");
+        System.out.println("b: Modify details of subject or delete the subject");
+        System.out.println("c: Calculate the average score and get my GPA");
+        System.out.println("e: Add your actual mark");
+        System.out.println("s: Save file");
+        System.out.println("l: load the file");
+        System.out.println("p: Print the eaxm list");
+        System.out.println("q: Quit the app");
+        line();
+    }
+
+    public void addSubject() {
         String state = "Y";
 
         while (state.equalsIgnoreCase("Y")) {
-            System.out.println("Subject: ");
+            System.out.print("Subject: ");
             String subject = scanner.nextLine();
 
-            System.out.println("Date(YYMMDD): ");
+            System.out.print("Date(YYMMDD): ");
             int date = scanner.nextInt();
             scanner.nextLine();
 
-            System.out.println("Time: ");
+            System.out.print("Time: ");
             int time = scanner.nextInt();
             scanner.nextLine();
 
-            System.out.println("Location: ");
+            System.out.print("Location: ");
             String location = scanner.nextLine();
 
-            System.out.println("Goal Mark: ");
+            System.out.print("Goal Mark: ");
             int goalMark = scanner.nextInt();
             scanner.nextLine();
 
-            Exam examDetail = new Exam(subject, date, time, location, goalMark);
-
-            examControl.getExamList().add(examDetail);
-            
-            line();
-
-            System.out.println("Do you want to save it? (Y/N)");
-            String saveIt = scanner.nextLine();
-            if(saveIt.equalsIgnoreCase("Y")){
-                saveFile(examControl);
-            }
+            examControl.addSubject(subject, date, time, location, goalMark); // list에 넣는것도 포함되어있음
 
             line();
 
             System.out.println("Do you want to add more? (Y/N): ");
-            String answer = scanner.nextLine();
-            state = answer;
-            if (state.equalsIgnoreCase("n")) {
-                getExam();
-            }
+            state = scanner.nextLine();
         }
     }
 
-
-    public void getExam() {
-        if (!examList.isEmpty()) {
-            for (Exam examObject : examList) {
-                line();
-                System.out.println("Subject: " + examObject.getSub());
-                System.out.println("Date: " + examObject.getDate());
-                System.out.println("Time: " + examObject.getTime());
-                System.out.println("Location: " + examObject.getLocation());
-                System.out.println("Goal Mark: " + examObject.getGoalMark());
-            }
-        } else {
-            line();
-            System.out.println("List is Empty!");
-        }
-    }
-
-    /*
-     * EFFECTS: Prompts the user to either delete or modify a subject.
-     * If 'D' is entered, prompts the user for the subject to delete and removes it
-     * if found.
-     * If 'M' is entered, allows the user to modify the details of an existing
-     * subject.
-     * If the subject is not found, prints an error message.
-     * If an invalid choice is entered, prints an error message.
-     * https://us.prairielearn.com/pl/workspace/2200330
-     */
-    public void delOrModSubject() {
-        System.out.println("Press the alphabet / Delete (D) or Modify (M)/: ");
+    public void changeImfor() {
+        System.out.println("Press the alphabet -> Delete (D) or Modify (M)/: ");
         String alpha = scanner.nextLine();
+        getExam();
+        line();
 
         if (alpha.equalsIgnoreCase("D")) {
             System.out.print("Which subject do you want to delete: ");
             String delSub = scanner.nextLine();
-            boolean isDeleted = examControl.removeExam(delSub);
-            getExam();
-            saveFile(examControl);
-            System.out.println("Exam modified and saved.");
-            if (!isDeleted) {
-                System.out.println("Can't find " + delSub + " subject!");
-            }
+            examControl.deleteSubject(delSub);
+            System.out.println(delSub + "is deleted.");
+
         } else if (alpha.equalsIgnoreCase("M")) {
-            modSub();
-        } else {
-            System.out.println("Sorry, You didn't press D or M.");
+            System.out.println("Which subject do you want to modify: ");
+            String modSub = scanner.nextLine();
+            System.out.print("#1: Subject's name \n#2: Location \n#3: Date \n#4: Time \n#5: Goal Mark\n");
+            int modNum = scanner.nextInt();
+            scanner.nextLine();
+
+            modifySubject(modSub, modNum);
+            System.out.println(modSub + "'s information has been changed. ");
+            getExam();
+            line();
         }
     }
 
-    public void modSub() {
-        System.out.println("Which subject do you want to modify: ");
-        String modSub = scanner.nextLine();
-        System.out.print("#1: Subject's name \n#2: Location \n#3: Date \n#4: Time \n#5: Goal Mark\n");
-        int modNum = scanner.nextInt();
-        scanner.nextLine();
-
-        boolean found = false;
-        for (Exam exam : examList) {
+    public void modifySubject(String modSub, int modNum) {
+        for (Exam exam : examControl.getExamList()) {
             if (exam.getSub().equalsIgnoreCase(modSub)) {
-                found = true;
                 switch (modNum) {
                     case 1:
                         System.out.println("Enter new subject: ");
@@ -257,69 +193,36 @@ public class ExamScheduleApp {
                         System.out.println("Invalid selection");
                         break;
                 }
-                getExam();
             }
         }
-        saveFile(examControl);
-        System.out.println(modSub + "'s information has been changed. ");
-        System.out.println("Exam modified and saved.");
     }
 
-    /*
-     * EFFECTS: Users can put their grade and it will calculate their average score.
-     * Also, it will give user their gpa.
-     */
-    public double averageScore() {
-        double totalMark = 0;
-
-        for (int i = 0; i < examList.size(); i++) {
-            boolean validInput = false;
-
-            while (!validInput) {
-                try {
-                    System.out.print("Enter the mark you got (ex.85.00): ");
-                    double actualMark = scanner.nextDouble();
-                    scanner.nextLine();
-
-                    if (actualMark < 0 || actualMark > 100) {
-                        System.out.println("Please enter a mark between 0 and 100.");
-                    } else {
-                        totalMark += actualMark;
-                        validInput = true;
-                    }
-
-                } catch (InputMismatchException e) {
-                    System.out.println("Invalid input. Please enter a valid number (e.g., 85.00).");
-                    scanner.next();
-                }
-            }
+    public void addActualMark() {
+        for (Exam e : examControl.getExamList()) {
+            System.out.print(e.getSub() + ": ");
+            int mark = scanner.nextInt();
+            scanner.nextLine();
+            e.setActMark(mark);
         }
-
-        double averageScore = totalMark / examList.size();
-        return averageScore;
+        System.out.println("Your marks have been added.");
     }
 
-    public void gpa() {
-        double aveScore = averageScore();
-        if (aveScore >= 90) {
-            gpa = "A+";
-        } else if (aveScore >= 80) {
-            gpa = "B+";
-        } else if (aveScore >= 70) {
-            gpa = "C+";
-        } else if (aveScore >= 60) {
-            gpa = "D";
+    public void getExam() {
+        if (!examControl.getExamList().isEmpty()) {
+            for (Exam examObject : examControl.getExamList()) {
+                line();
+                System.out.println("Subject: " + examObject.getSub());
+                System.out.println("Date: " + examObject.getDate());
+                System.out.println("Time: " + examObject.getTime());
+                System.out.println("Location: " + examObject.getLocation());
+                System.out.println("Goal Mark: " + examObject.getGoalMark());
+            }
         } else {
-            gpa = "F";
+            line();
+            System.out.println("List is Empty!");
         }
-        System.out.println("Your average score is: " + aveScore);
-        System.out.println("Your gpa is: " + gpa);
     }
 
-    /*
-     * MODIFES: this
-     * EFFECTS: close the application.
-     */
     public void quitApp() {
         System.out.println("Thank you for using our app.");
         System.out.println("Fake it till make it!");
