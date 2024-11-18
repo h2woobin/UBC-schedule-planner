@@ -6,16 +6,11 @@ import java.util.List;
 import model.Exam;
 
 import static org.junit.jupiter.api.Assertions.*;
-import model.ExamControl;
 
 public class JsonReaderTest extends JsonTest {
-    private ExamControl.InnerExamControl examControl;
 
     @Test
     void testReaderNonExistentFile() {
-        // ExamControl ouExamControl = new ExamControl();
-        // examControl = ouExamControl.new InnerExamControl();
-
         JsonReader reader = new JsonReader("./data/noSuchFile.json");
         try {
             List<Exam> exams = reader.read();
@@ -27,9 +22,6 @@ public class JsonReaderTest extends JsonTest {
 
     @Test
     void testReaderEmptyWorkRoom() {
-        ExamControl ouExamControl = new ExamControl();
-        examControl = ouExamControl.new InnerExamControl();
-
         JsonReader reader = new JsonReader("./data/testWriterEmptyWorkRoom.json");
         try {
             List<Exam> exams = reader.read();
