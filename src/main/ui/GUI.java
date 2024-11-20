@@ -33,6 +33,19 @@ public class GUI extends JFrame implements ActionListener {
     private JLabel listings;
     private boolean listed;
 
+    private JPanel addExamPage;
+    private JButton addExam;
+    private JTextField text1;
+    private JTextField text2;
+    private JTextField text3;
+    private JTextField text4;
+    private JTextField text5;
+    private JLabel subject;
+    private JLabel date;
+    private JLabel location;
+    private JLabel goalMark;
+    private JLabel time;
+
     public GUI() {
         super("Exam List App");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -40,6 +53,7 @@ public class GUI extends JFrame implements ActionListener {
 
         mainPage();
         makeEaxmListPanel();
+        addExampanel();
 
         JLabel startMsg = new JLabel("Plan you exam here!");
         addLabel(startMsg);
@@ -49,6 +63,64 @@ public class GUI extends JFrame implements ActionListener {
         addActionToButton();
 
         mainMenu.setVisible(true);
+    }
+
+// --- add list
+    public void addExampanelSet() { 
+        add(addExamPage);
+        addExamPage.setVisible(true);
+        mainMenu.setVisible(false);
+        addExamPage.setVisible(false);
+    }
+
+    public void addExampanel(){
+        addExamPage = new JPanel(new GridLayout(0, 2));
+        JButton returnToMain = new JButton("Main meun");
+        returnToMain.setActionCommand("Main meun");
+        returnToMain.addActionListener(this);
+        addMenuButton(returnToMain, addExamPage);
+    }
+    public void createListingsPage() {
+        addExam = new JButton("Add"); // 버튼 만들기
+        addExam.setActionCommand("Add");
+        addExam.addActionListener(this);
+
+        subject = new JLabel("Subject: ");
+        text1 = new JTextField(10);
+
+        date = new JLabel("Date (YY/MM/DD): ");
+        text2 = new JTextField(10);
+
+        time = new JLabel("Time (24-hour clock): ");
+        text3 = new JTextField(10);
+
+        location = new JLabel("Location:");
+        text4 = new JTextField(10);
+
+        goalMark = new JLabel("Goal mark: ");
+        text5 = new JTextField(10);
+
+        listed = false; 
+        addExamButtonsSetting(); // 오른쪽 입력하는 칸  
+    }
+    // --- add list
+    
+
+    public void addExamButtonsSetting(){
+        addExam.setBackground(Color.BLACK);
+        addExam.setForeground(Color.WHITE);
+
+        subject.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
+        date.setFont(new Font("TimesNewRoman", Font.BOLD, 24)); 
+        time.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
+        location.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
+        goalMark.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
+
+        text1.setMaximumSize(new Dimension(1200, 400));
+        text2.setMaximumSize(new Dimension(1200, 400));
+        text3.setMaximumSize(new Dimension(1200, 400));
+        text4.setMaximumSize(new Dimension(1200, 400));
+        text5.setMaximumSize(new Dimension(1200, 400));
     }
 
     // Create start msg text label and add to the main
@@ -99,13 +171,41 @@ public class GUI extends JFrame implements ActionListener {
         // 엑션 버튼 커맨더
         button1.addActionListener(this);
         button1.setActionCommand("Current Exam List");
+        button1.addActionListener(this);
+        button1.setActionCommand("Add Exam schedule");
+        button1.addActionListener(this);
+        button1.setActionCommand("Modify Exam");
+        button1.addActionListener(this);
+        button1.setActionCommand("Add actual mark");
+        button1.addActionListener(this);
+        button1.setActionCommand("Calculate GPA");
+        button1.addActionListener(this);
+        button1.setActionCommand("Svae file");
+        button1.addActionListener(this);
+        button1.setActionCommand("Load file");
+        button1.addActionListener(this);
+        button1.setActionCommand("Quit the app");
     }
 
     // EFFECTS: if user click the button, go to the right method
-    public void actionPerformed(ActionEvent ae) {
+    public void actionPerformed(ActionEvent action) {
         // 사용자가 버튼을 클릭하면 화면이 전환되게 하는 메서드
-        if (ae.getActionCommand().equals("Current Exam List")) { // 유저가 클릭한게 view ~와 같다면
-
+        if (action.getActionCommand().equals("Current Exam List")) { // 유저가 클릭한게 view ~와 같다면
+            curExamListSet();
+        } else if (action.getActionCommand().equals("Add Exam schedule")){
+            addExampanelSet();
+        } else if (action.getActionCommand().equals("Modify Exam")){
+            
+        } else if (action.getActionCommand().equals("Add actual mark")){
+            
+        } else if (action.getActionCommand().equals("Calculate GPA")){
+            
+        } else if (action.getActionCommand().equals("Svae file")){
+            
+        } else if (action.getActionCommand().equals("Load file")){
+            
+        } else if (action.getActionCommand().equals("Quit the app")){
+            
         }
     }
 
@@ -118,6 +218,13 @@ public class GUI extends JFrame implements ActionListener {
         button5 = new JButton("Save Exma to File");
         button7 = new JButton("Load File");
         button6 = new JButton("Quit Application");
+    }
+
+    public void curExamListSet() {
+        add(eaxmListPanel); // carListingPanel을 화면에 추가함
+        eaxmListPanel.setVisible(true); // 사용자가 정보를 볼 수 있음
+        mainMenu.setVisible(false); // main안보이게
+        eaxmListPanel.setVisible(false); // listingspage가 안보이게
     }
 
     // EFFECTS: add buttons to main menu at once 
