@@ -46,6 +46,11 @@ public class GUI extends JFrame implements ActionListener {
     private JLabel goalMark;
     private JLabel time;
 
+    private JPanel addActaulMakrPage;
+    private JButton addActualMark;
+    private JTextField text6;
+    private JLabel actualMark;
+
     public GUI() {
         super("Exam List App");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -54,6 +59,7 @@ public class GUI extends JFrame implements ActionListener {
         mainPage();
         makeEaxmListPanel();
         addExampanel();
+        addActualMarkpanel();
 
         JLabel startMsg = new JLabel("Plan you exam here!");
         addLabel(startMsg);
@@ -65,22 +71,23 @@ public class GUI extends JFrame implements ActionListener {
         mainMenu.setVisible(true);
     }
 
-// --- add list
-    public void addExampanelSet() { 
-        add(addExamPage);
-        addExamPage.setVisible(true);
-        mainMenu.setVisible(false);
-        addExamPage.setVisible(false);
-    }
-
-    public void addExampanel(){
+    // --- add list
+    public void addExampanel() {
         addExamPage = new JPanel(new GridLayout(0, 2));
         JButton returnToMain = new JButton("Main meun");
         returnToMain.setActionCommand("Main meun");
         returnToMain.addActionListener(this);
         addMenuButton(returnToMain, addExamPage);
     }
-    public void createListingsPage() {
+
+    public void addExampanelSet() {
+        add(addExamPage);
+        addExamPage.setVisible(true);
+        mainMenu.setVisible(false);
+        addExamPage.setVisible(false);
+    }
+
+    public void createAddExamPage() {
         addExam = new JButton("Add"); // 버튼 만들기
         addExam.setActionCommand("Add");
         addExam.addActionListener(this);
@@ -100,27 +107,47 @@ public class GUI extends JFrame implements ActionListener {
         goalMark = new JLabel("Goal mark: ");
         text5 = new JTextField(10);
 
-        listed = false; 
-        addExamButtonsSetting(); // 오른쪽 입력하는 칸  
+        listed = false;
+        addExamButtonsSetting(); // 오른쪽 입력하는 칸
     }
     // --- add list
-    
 
-    public void addExamButtonsSetting(){
-        addExam.setBackground(Color.BLACK);
-        addExam.setForeground(Color.WHITE);
+    // --- add actual mark
+    public void addActualMarkpanel() {
+        addActaulMakrPage = new JPanel(new GridLayout(0, 2));
+        JButton returnToMain = new JButton("Main meun");
+        returnToMain.setActionCommand("Main meun");
+        returnToMain.addActionListener(this);
+        addMenuButton(returnToMain, addActaulMakrPage);
+    }
 
-        subject.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
-        date.setFont(new Font("TimesNewRoman", Font.BOLD, 24)); 
-        time.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
-        location.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
-        goalMark.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
+    public void addActualMarkSet() {
+        add(addActaulMakrPage);
+        addActaulMakrPage.setVisible(true);
+        mainMenu.setVisible(false);
+        addActaulMakrPage.setVisible(false);
+    }
 
-        text1.setMaximumSize(new Dimension(1200, 400));
-        text2.setMaximumSize(new Dimension(1200, 400));
-        text3.setMaximumSize(new Dimension(1200, 400));
-        text4.setMaximumSize(new Dimension(1200, 400));
-        text5.setMaximumSize(new Dimension(1200, 400));
+    public void createActaulMakrPage() {
+        addActualMark = new JButton("Add"); // 버튼 만들기
+        addActualMark.setActionCommand("Add");
+        addActualMark.addActionListener(this);
+
+        actualMark = new JLabel("Actual Mark: ");
+        text6 = new JTextField(10);
+
+        // listed = false;
+        addExamButtonsSetting(); // 오른쪽 입력하는 칸
+    }
+    // --- add actual mark
+
+    public void addExamButtonsSetting() {
+        addActualMark.setBackground(Color.BLACK);
+        addActualMark.setForeground(Color.WHITE);
+
+        actualMark.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
+
+        text6.setMaximumSize(new Dimension(1200, 400));
     }
 
     // Create start msg text label and add to the main
@@ -192,20 +219,20 @@ public class GUI extends JFrame implements ActionListener {
         // 사용자가 버튼을 클릭하면 화면이 전환되게 하는 메서드
         if (action.getActionCommand().equals("Current Exam List")) { // 유저가 클릭한게 view ~와 같다면
             curExamListSet();
-        } else if (action.getActionCommand().equals("Add Exam schedule")){
+        } else if (action.getActionCommand().equals("Add Exam schedule")) {
             addExampanelSet();
-        } else if (action.getActionCommand().equals("Modify Exam")){
-            
-        } else if (action.getActionCommand().equals("Add actual mark")){
-            
-        } else if (action.getActionCommand().equals("Calculate GPA")){
-            
-        } else if (action.getActionCommand().equals("Svae file")){
-            
-        } else if (action.getActionCommand().equals("Load file")){
-            
-        } else if (action.getActionCommand().equals("Quit the app")){
-            
+        } else if (action.getActionCommand().equals("Modify Exam")) {
+
+        } else if (action.getActionCommand().equals("Add actual mark")) {
+            addActualMarkSet();
+        } else if (action.getActionCommand().equals("Calculate GPA")) {
+
+        } else if (action.getActionCommand().equals("Svae file")) {
+
+        } else if (action.getActionCommand().equals("Load file")) {
+
+        } else if (action.getActionCommand().equals("Quit the app")) {
+
         }
     }
 
@@ -227,8 +254,9 @@ public class GUI extends JFrame implements ActionListener {
         eaxmListPanel.setVisible(false); // listingspage가 안보이게
     }
 
-    // EFFECTS: add buttons to main menu at once 
-    public void addButtons(JButton button1, JButton button2, JButton button3, JButton button4,JButton button5, JButton button6, JButton button7) {
+    // EFFECTS: add buttons to main menu at once
+    public void addButtons(JButton button1, JButton button2, JButton button3, JButton button4, JButton button5,
+            JButton button6, JButton button7) {
         addButton(button1, mainMenu);
         addButton(button2, mainMenu);
         addButton(button3, mainMenu);
