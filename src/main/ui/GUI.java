@@ -9,17 +9,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 // import java.io.File;
 // import java.io.FileNotFoundException;
 // import java.io.IOException;
 // import java.io.UnsupportedEncodingException; 
-import java.util.ArrayList;
+import java.util.List;
 
 public class GUI extends JFrame implements ActionListener {
     private static final String EXAMLIST_FILE = "./data/examListings.txt";
     private Exam exam;
     private ExamControl examControl;
-    private ArrayList<String> examList = new ArrayList<>();
+    private List<Exam> examList = new ArrayList<>();
 
     private JPanel mainMenu;
     private JButton button1;
@@ -53,6 +54,10 @@ public class GUI extends JFrame implements ActionListener {
     private JTextField text6;
     private JLabel actualMark;
 
+    private JPanel modifypage;
+    private JButton modifyExam;
+    private JButton removeExam;
+
     public GUI() {
         super("Exam List App");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -83,6 +88,96 @@ public class GUI extends JFrame implements ActionListener {
         button7 = new JButton("Load file");
         button8 = new JButton("Quit the app");
     }
+
+    // ----------------여기서부터과목지우고수정하는페이지---------------
+    public void modifypanelSet() {
+        if (modifypage == null) {
+            modifypanel();
+        }
+
+        add(modifypage);
+        modifypage.setVisible(true);
+        mainMenu.setVisible(false);
+        revalidate(); // 레이아웃 갱신
+        repaint();
+    }
+
+    public void modifypanel() {
+        modifypage = new JPanel();
+        modifypage.setLayout(new BorderLayout());
+
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        createTopButtons(topPanel);
+
+        JPanel bottomPanel = new JPanel(new GridLayout(0, 2, 10, 10));
+        createBottomButtons(bottomPanel);
+
+        modifypage.add(topPanel, BorderLayout.NORTH); // 상단 버튼
+        modifypage.add(bottomPanel, BorderLayout.CENTER); // 하단 입력 칸
+    }
+
+    public void createTopButtons(JPanel topPanel) {
+        JButton returnToMain = new JButton("Main menu");
+        returnToMain.setActionCommand("Main menu");
+        returnToMain.addActionListener(this);
+
+        modifyExam = new JButton("Modify"); // 버튼 만들기
+        modifyExam.setActionCommand("Modify");
+        modifyExam.addActionListener(this);
+
+        removeExam = new JButton("Remove"); // 버튼 만들기
+        removeExam.setActionCommand("Remove");
+        removeExam.addActionListener(this);
+
+        addButtonBlack(returnToMain, topPanel);
+        addButtonBlack(modifyExam, topPanel);
+        addButtonBlack(removeExam, topPanel);
+    }
+
+    public void createBottomButtons(JPanel bottomPanel) {
+        subject = new JLabel("Subject: ");
+        text1 = new JTextField(10);
+
+        date = new JLabel("Date (YY/MM/DD): ");
+        text2 = new JTextField(10);
+
+        time = new JLabel("Time (24-hour clock): ");
+        text3 = new JTextField(10);
+
+        location = new JLabel("Location:");
+        text4 = new JTextField(10);
+
+        goalMark = new JLabel("Goal mark: ");
+        text5 = new JTextField(10);
+
+        modfiyInforSetting(); // 오른쪽 입력하는 칸
+
+        bottomPanel.add(subject);
+        bottomPanel.add(text1);
+        bottomPanel.add(date);
+        bottomPanel.add(text2);
+        bottomPanel.add(time);
+        bottomPanel.add(text3);
+        bottomPanel.add(location);
+        bottomPanel.add(text4);
+        bottomPanel.add(goalMark);
+        bottomPanel.add(text5);
+    }
+
+    public void modfiyInforSetting() { // 사용자 입력칸 세팅값
+        subject.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
+        date.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
+        time.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
+        location.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
+        goalMark.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
+
+        text1.setMaximumSize(new Dimension(1200, 400));
+        text2.setMaximumSize(new Dimension(1200, 400));
+        text3.setMaximumSize(new Dimension(1200, 400));
+        text4.setMaximumSize(new Dimension(1200, 400));
+        text5.setMaximumSize(new Dimension(1200, 400));
+    }
+    // ------------여기까지과목을지우고수정하는메서드-------
 
     // ------여기서부터과목을추가하는메서드시작------------
     public void addExampanelSet() {
@@ -161,10 +256,9 @@ public class GUI extends JFrame implements ActionListener {
         addExamPage.add(goalMark);
         addExamPage.add(text5);
     }
-
     // --------여기까지새로운시험을추가하는것------------------
 
-    // --------시험점수를입력하는메서드------------------------ 디자인수정필요
+    // --------시험점수를입력하는메서드------------------------
     public void addActualMarkSet() {
         add(addActaulMakrPage);
         addActaulMakrPage.setVisible(true);
@@ -234,8 +328,8 @@ public class GUI extends JFrame implements ActionListener {
         eaxmListPanel = new JPanel(new BorderLayout());
 
         DefaultListModel<String> listModel = new DefaultListModel<>();
-        for (String exam : examList) {
-            listModel.addElement(exam);
+        for (Exam exam : examList) {
+            listModel.addElement(formatExamDetails(exam));
         }
         JList<String> examJList = new JList<>(listModel);
         JScrollPane scrollPane = new JScrollPane(examJList); // 스크롤 버튼을 만들기
@@ -246,6 +340,13 @@ public class GUI extends JFrame implements ActionListener {
 
         eaxmListPanel.add(scrollPane, BorderLayout.CENTER); // JList 추가
         eaxmListPanel.add(mainMenuButton, BorderLayout.SOUTH); // 버튼 추가
+    }
+
+    public String formatExamDetails(Exam exam) {
+        return "<html>" + "Subject: " + exam.getSub() + "<br>" + "Date: " + exam.getDate() + "<br>" + "Time: " + exam.getTime()
+                + "<br>" + "Location: "
+                + exam.getLocation() + "<br>" + "Goal Mark: " + exam.getGoalMark() + "<br>--------------------</html>";
+
     }
     // ----------------------------------------------------------------------
 
@@ -295,9 +396,9 @@ public class GUI extends JFrame implements ActionListener {
         } else if (action.getActionCommand().equals("Add Exam schedule")) { // 0
             addExampanelSet();
         } else if (action.getActionCommand().equals("Modify Exam")) {
-
+            modifypanelSet();
         } else if (action.getActionCommand().equals("Add actual mark")) { // 받아서 추가...
-            addActualMarkSet(); 
+            addActualMarkSet();
         } else if (action.getActionCommand().equals("Calculate GPA")) {
 
         } else if (action.getActionCommand().equals("Save file")) {
@@ -310,20 +411,20 @@ public class GUI extends JFrame implements ActionListener {
             returnToMainMenu();
         } else if (action.getActionCommand().equals("Add")) { // 0
             addExmaToList();
+        } else if (action.getActionCommand().equals("Remove")) { // 0
+
         }
     }
 
     public void addExmaToList() {
         String subject = text1.getText();
-        String date = text2.getText();
-        String time = text3.getText();
+        int date = Integer.parseInt(text2.getText());
+        int time = Integer.parseInt(text3.getText());
         String location = text4.getText();
-        String goalMark = text5.getText();
+        int goalMark = Integer.parseInt(text5.getText());
 
-        String examDetails = "<html>" +"Subject: " + subject + "<br>" + "Date: " + date + "<br>" + "Time: " + time + "<br>" + "Location: "
-                + location + "<br>" + "Goal Mark: " + goalMark + "<br>--------------------</html>";
-
-        examList.add(examDetails);
+        // Exam exam = new Exam(subject, date, time, location, goalMark);
+        // examList.add(exam);
 
         text1.setText("");
         text2.setText("");
