@@ -326,12 +326,18 @@ public class GUI extends JFrame implements ActionListener {
     // EFFECTS: create exam list panel and set the size and shape with scroll.
     public void makeEaxmListPanel() {
         eaxmListPanel = new JPanel(new BorderLayout());
-
         DefaultListModel<String> listModel = new DefaultListModel<>();
-        for (Exam exam : examList) {
-            listModel.addElement(formatExamDetails(exam));
+        if (examControl == null) {
+            listModel.addElement("No exams available.");
+        } else if (examControl.getExamList().isEmpty()) {
+            listModel.addElement("No exams available.");
+        } else {
+            for (Exam exam : examControl.getExamList()) {
+                listModel.addElement(formatExamDetails(exam));
+            }
         }
         JList<String> examJList = new JList<>(listModel);
+        examJList.setCellRenderer(new DefaultListCellRenderer());
         JScrollPane scrollPane = new JScrollPane(examJList); // 스크롤 버튼을 만들기
 
         JButton mainMenuButton = new JButton("Main Menu"); // return 버튼 생성
@@ -342,10 +348,21 @@ public class GUI extends JFrame implements ActionListener {
         eaxmListPanel.add(mainMenuButton, BorderLayout.SOUTH); // 버튼 추가
     }
 
+    private String escapeHtml(String input) {
+        return input.replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;")
+                .replace("\"", "&quot;")
+                .replace("'", "&apos;");
+    }
+
     public String formatExamDetails(Exam exam) {
-        return "<html>" + "Subject: " + exam.getSub() + "<br>" + "Date: " + exam.getDate() + "<br>" + "Time: " + exam.getTime()
+        return "<html>" + "Subject: " + escapeHtml(exam.getSub()) + "<br>" + "Date: "
+                + escapeHtml(String.valueOf(exam.getDate())) + "<br>" + "Time: "
+                + escapeHtml(String.valueOf(exam.getTime()))
                 + "<br>" + "Location: "
-                + exam.getLocation() + "<br>" + "Goal Mark: " + exam.getGoalMark() + "<br>--------------------</html>";
+                + escapeHtml(exam.getLocation()) + "<br>" + "Goal Mark: "
+                + escapeHtml(String.valueOf(exam.getGoalMark())) + "<br>--------------------</html>";
 
     }
     // ----------------------------------------------------------------------
@@ -410,18 +427,24 @@ public class GUI extends JFrame implements ActionListener {
         } else if (action.getActionCommand().equals("Main menu")) {// 0
             returnToMainMenu();
         } else if (action.getActionCommand().equals("Add")) { // 0
-            addExmaToList();
+            addExamToList();
         } else if (action.getActionCommand().equals("Remove")) { // 0
 
         }
     }
 
-    public void addExmaToList() {
+    public void addExamToList() {
         String subject = text1.getText();
         int date = Integer.parseInt(text2.getText());
         int time = Integer.parseInt(text3.getText());
         String location = text4.getText();
         int goalMark = Integer.parseInt(text5.getText());
+
+        if (examControl == null) {
+            examControl = new ExamControl(); // 초기화
+        }
+
+        examControl.addSubject(subject, date, time, location, goalMark); 
 
         // Exam exam = new Exam(subject, date, time, location, goalMark);
         // examList.add(exam);
@@ -431,7 +454,7 @@ public class GUI extends JFrame implements ActionListener {
         text3.setText("");
         text4.setText("");
         text5.setText("");
-    }
+    } 
 
     // EFFECTS: add buttons to main menu at once
     public void addButtons(JButton button1, JButton button2, JButton button3, JButton button4, JButton button5,
