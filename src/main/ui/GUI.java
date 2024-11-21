@@ -9,15 +9,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+// import java.io.File;
+// import java.io.FileNotFoundException;
+// import java.io.IOException;
+// import java.io.UnsupportedEncodingException; 
+import java.util.ArrayList;
 
 public class GUI extends JFrame implements ActionListener {
     private static final String EXAMLIST_FILE = "./data/examListings.txt";
     private Exam exam;
     private ExamControl examControl;
+    private ArrayList<String> examList = new ArrayList<>();
 
     private JPanel mainMenu;
     private JButton button1;
@@ -57,7 +59,7 @@ public class GUI extends JFrame implements ActionListener {
         setPreferredSize(new Dimension(600, 500));
 
         mainPage();
-        // makeEaxmListPanel();
+        makeEaxmListPanel();
         addExampanel();
         addActualMarkpanel();
 
@@ -126,7 +128,7 @@ public class GUI extends JFrame implements ActionListener {
         examInforSetting(); // 오른쪽 입력하는 칸
     }
 
-    public void examInforSetting() { // 사용자 입력칸 세팅값 
+    public void examInforSetting() { // 사용자 입력칸 세팅값
         addExam.setBackground(Color.BLACK);
         addExam.setForeground(Color.WHITE);
         addExam.setFont(new Font("TimesNewRoman", Font.BOLD, 12));
@@ -160,23 +162,27 @@ public class GUI extends JFrame implements ActionListener {
         addExamPage.add(text5);
     }
 
-
     // --------여기까지새로운시험을추가하는것------------------
 
-    // --- add actual mark -----------------------------------------------------
-    public void addActualMarkpanel() {
-        addActaulMakrPage = new JPanel(new GridLayout(0, 2));
-        JButton returnToMain = new JButton("Main menu");
-        returnToMain.setActionCommand("Main menu");
-        returnToMain.addActionListener(this);
-        addButtonWithe(returnToMain, addActaulMakrPage);
-    }
-
+    // --------시험점수를입력하는메서드------------------------ 디자인수정필요
     public void addActualMarkSet() {
         add(addActaulMakrPage);
         addActaulMakrPage.setVisible(true);
         mainMenu.setVisible(false);
-        addActaulMakrPage.setVisible(false);
+        revalidate(); // 레이아웃 갱신
+        repaint();
+    }
+
+    public void addActualMarkpanel() {
+        addActaulMakrPage = new JPanel(new GridLayout(0, 2));
+        JButton returnToMain = new JButton("Main menu");
+        returnToMain.addActionListener(this);
+        returnToMain.setActionCommand("Main menu");
+
+        addButtonBlack(returnToMain, addActaulMakrPage);
+
+        createActaulMakrPage();
+        addLabelsToListingsActualMark();
     }
 
     public void createActaulMakrPage() {
@@ -194,10 +200,16 @@ public class GUI extends JFrame implements ActionListener {
     public void addAcutalMarkButtonsSetting() {
         addActualMark.setBackground(Color.BLACK);
         addActualMark.setForeground(Color.WHITE);
+        addActualMark.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
 
         actualMark.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
-
         text6.setMaximumSize(new Dimension(1200, 400));
+    }
+
+    public void addLabelsToListingsActualMark() {
+        addActaulMakrPage.add(addActualMark);
+        addActaulMakrPage.add(actualMark);
+        addActaulMakrPage.add(text6);
     }
     // --- add actual mark -----------------------------------------------------
 
@@ -208,27 +220,33 @@ public class GUI extends JFrame implements ActionListener {
     }
 
     // ----------------------------------------------------------------------
-    // public void curExamListSet() {
-    //     add(eaxmListPanel); // carListingPanel을 화면에 추가함
-    //     eaxmListPanel.setVisible(true); // 사용자가 정보를 볼 수 있음
-    //     mainMenu.setVisible(false); // main안보이게
-    //     eaxmListPanel.setVisible(false); // listingspage가 안보이게
-    // }
+    public void curExamListSet() {
+        makeEaxmListPanel();
+        add(eaxmListPanel); // carListingPanel을 화면에 추가함
+        eaxmListPanel.setVisible(true); // 사용자가 정보를 볼 수 있음
+        mainMenu.setVisible(false); // main안보이게
+        revalidate();
+        repaint();
+    }
 
-    // // EFFECTS: create exam list panel and set the size and shape with scroll.
-    // public void makeEaxmListPanel() {
-    //     eaxmListPanel = new JPanel(new GridLayout(2, 1)); // 실제 2:1 패널 만든듯
-    //     JScrollPane scroll = new JScrollPane(listings, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-    //             JScrollPane.HORIZONTAL_SCROLLBAR_NEVER); // 스크롤 버튼을 만들기
+    // EFFECTS: create exam list panel and set the size and shape with scroll.
+    public void makeEaxmListPanel() {
+        eaxmListPanel = new JPanel(new BorderLayout());
 
-    //     JButton mainMenuButton = new JButton("Main Menu"); // return 버튼 생성
-    //     mainMenuButton.setActionCommand("Main menu"); // 버튼을 눌렀을때 동작을 말하는 것 같음
-    //     mainMenuButton.addActionListener(this);
-    //     addButtonWithe(mainMenuButton, eaxmListPanel); // 버튼 추가
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        for (String exam : examList) {
+            listModel.addElement(exam);
+        }
+        JList<String> examJList = new JList<>(listModel);
+        JScrollPane scrollPane = new JScrollPane(examJList); // 스크롤 버튼을 만들기
 
-    //     listings.setFont(new Font("TimesNewRoman", Font.BOLD, 12)); // 글시체 이게 list 같음
-    //     eaxmListPanel.add(scroll);
-    // }
+        JButton mainMenuButton = new JButton("Main Menu"); // return 버튼 생성
+        mainMenuButton.setActionCommand("Main menu"); // 버튼을 눌렀을때 동작을 말하는 것 같음
+        mainMenuButton.addActionListener(this);
+
+        eaxmListPanel.add(scrollPane, BorderLayout.CENTER); // JList 추가
+        eaxmListPanel.add(mainMenuButton, BorderLayout.SOUTH); // 버튼 추가
+    }
     // ----------------------------------------------------------------------
 
     // --------------------Main--------------------------------------------------
@@ -244,7 +262,6 @@ public class GUI extends JFrame implements ActionListener {
     // MODIFIES: this
     // EFFECTS: Set each button run their job
     public void addActionToButton() {
-        // 엑션 버튼 커맨더
         button1.addActionListener(this);
         button1.setActionCommand("Current Exam List");
 
@@ -273,14 +290,14 @@ public class GUI extends JFrame implements ActionListener {
     // EFFECTS: if user click the button, go to the right method
     public void actionPerformed(ActionEvent action) {
         // 사용자가 버튼을 클릭하면 화면이 전환되게 하는 메서드
-        if (action.getActionCommand().equals("Current Exam List")) { // 유저가 클릭한게 view ~와 같다면
-            // curExamListSet();
-        } else if (action.getActionCommand().equals("Add Exam schedule")) {
+        if (action.getActionCommand().equals("Current Exam List")) { // 0
+            curExamListSet();
+        } else if (action.getActionCommand().equals("Add Exam schedule")) { // 0
             addExampanelSet();
         } else if (action.getActionCommand().equals("Modify Exam")) {
 
-        } else if (action.getActionCommand().equals("Add actual mark")) {
-            addActualMarkSet();
+        } else if (action.getActionCommand().equals("Add actual mark")) { // 받아서 추가...
+            addActualMarkSet(); 
         } else if (action.getActionCommand().equals("Calculate GPA")) {
 
         } else if (action.getActionCommand().equals("Save file")) {
@@ -289,11 +306,30 @@ public class GUI extends JFrame implements ActionListener {
 
         } else if (action.getActionCommand().equals("Quit the app")) {
             System.exit(0);
-        } else if (action.getActionCommand().equals("Main Menu")) {
+        } else if (action.getActionCommand().equals("Main menu")) {// 0
             returnToMainMenu();
-        } else if (action.getActionCommand().equals("Add")) {
-            // addExmaToList();
+        } else if (action.getActionCommand().equals("Add")) { // 0
+            addExmaToList();
         }
+    }
+
+    public void addExmaToList() {
+        String subject = text1.getText();
+        String date = text2.getText();
+        String time = text3.getText();
+        String location = text4.getText();
+        String goalMark = text5.getText();
+
+        String examDetails = "<html>" +"Subject: " + subject + "<br>" + "Date: " + date + "<br>" + "Time: " + time + "<br>" + "Location: "
+                + location + "<br>" + "Goal Mark: " + goalMark + "<br>--------------------</html>";
+
+        examList.add(examDetails);
+
+        text1.setText("");
+        text2.setText("");
+        text3.setText("");
+        text4.setText("");
+        text5.setText("");
     }
 
     // EFFECTS: add buttons to main menu at once
@@ -325,7 +361,7 @@ public class GUI extends JFrame implements ActionListener {
         button1.setBackground(Color.BLACK);
         button1.setForeground(Color.WHITE);
         panel.add(button1);
-        pack(); // 프레임 크기를 자동 조절 
+        pack(); // 프레임 크기를 자동 조절
         setLocationRelativeTo(null); // 화면에 표시될 위치 설정 null > 화면 중앙에 위치
         setVisible(true); // 프레임을 화면에 표시
         setResizable(false); // 사용자가 프레임 크기를 조정할 수 없도록 설정
@@ -334,6 +370,7 @@ public class GUI extends JFrame implements ActionListener {
     public void returnToMainMenu() {
         mainMenu.setVisible(true);
         eaxmListPanel.setVisible(false);
+        addExamPage.setVisible(false);
         addActaulMakrPage.setVisible(false);
     }
 }
