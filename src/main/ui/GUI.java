@@ -9,11 +9,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
-// import java.io.File;
-// import java.io.FileNotFoundException;
-// import java.io.IOException;
-// import java.io.UnsupportedEncodingException; 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException; 
 import java.util.List;
 
 public class GUI extends JFrame implements ActionListener {
@@ -21,6 +22,7 @@ public class GUI extends JFrame implements ActionListener {
     private Exam exam;
     private ExamControl examControl;
     private List<Exam> examList = new ArrayList<>();
+    private JsonWriter writer;
 
     private JPanel mainMenu;
     private JButton button1;
@@ -447,7 +449,7 @@ public class GUI extends JFrame implements ActionListener {
         } else if (action.getActionCommand().equals("Calculate GPA")) { //0
             calculateGpa();
         } else if (action.getActionCommand().equals("Save file")) { // X
-            // saveExam();
+            saveFile();
         } else if (action.getActionCommand().equals("Load file")) { // X
 
         } else if (action.getActionCommand().equals("Main menu")) {// 0
@@ -535,6 +537,23 @@ public class GUI extends JFrame implements ActionListener {
         setLocationRelativeTo(null); // 화면에 표시될 위치 설정 null > 화면 중앙에 위치
         setVisible(true); // 프레임을 화면에 표시
         setResizable(false); // 사용자가 프레임 크기를 조정할 수 없도록 설정
+    }
+
+    public void saveFile(){
+        if (examControl == null || examControl.getExamList().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No exams available to delete.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        writer = new JsonWriter(EXAMLIST_FILE);
+        try{
+            writer.open();
+            writer.write(examControl.toJson());
+            writer.close();
+            JOptionPane.showMessageDialog(this, "Exam list saved successfully!", "Save File", JOptionPane.INFORMATION_MESSAGE);
+        } catch (FileNotFoundException e) {
+        JOptionPane.showMessageDialog(this, "Error saving to file.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
     }
 
     public void returnToMainMenu() {
