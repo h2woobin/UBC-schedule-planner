@@ -24,11 +24,7 @@ public class ExamControl implements Writable {
     // REQUIRED: examList.contains(subject)
     // EFFECTS: choose the subject which user wants to delete and delete.
     public void deleteSubject(String subject) {
-        for (Exam e : examList) {
-            if (e.getSub().equals(subject)) {
-                examList.remove(e);
-            }
-        }
+        examList.removeIf(exam -> exam.getSub().equalsIgnoreCase(subject));
     }
     // REQUIRED: examList.contains(subject)
     // EFFECTS: add user's actual mark for calculate their gpa

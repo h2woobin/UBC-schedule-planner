@@ -429,8 +429,24 @@ public class GUI extends JFrame implements ActionListener {
         } else if (action.getActionCommand().equals("Add")) { // 0
             addExamToList();
         } else if (action.getActionCommand().equals("Remove")) { // 0
-
+            removeExmaToList();
         }
+    }
+
+    public void removeExmaToList(){
+        String subject = text1.getText();
+
+        if (examControl == null || examControl.getExamList().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No exams available to delete.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        examControl.deleteSubject(subject);
+
+        text1.setText("");
+        text2.setText("");
+        text3.setText("");
+        text4.setText("");
+        text5.setText("");
     }
 
     public void addExamToList() {
@@ -492,9 +508,32 @@ public class GUI extends JFrame implements ActionListener {
     }
 
     public void returnToMainMenu() {
-        mainMenu.setVisible(true);
-        eaxmListPanel.setVisible(false);
-        addExamPage.setVisible(false);
-        addActaulMakrPage.setVisible(false);
+
+        if (mainMenu != null) {
+            mainMenu.setVisible(true); // 메인 메뉴 활성화
+        }
+    
+        // 다른 패널 숨기기 전에 null 체크
+        if (eaxmListPanel != null) {
+            eaxmListPanel.setVisible(false);
+        }
+        if (addExamPage != null) {
+            addExamPage.setVisible(false);
+        }
+        if (addActaulMakrPage != null) {
+            addActaulMakrPage.setVisible(false);
+        }
+        if (modifypage != null) {
+            modifypage.setVisible(false);
+        }
+    
+        // UI 갱신
+        revalidate();
+        repaint();
+        // mainMenu.setVisible(true);
+        // eaxmListPanel.setVisible(false);
+        // addExamPage.setVisible(false);
+        // addActaulMakrPage.setVisible(false);
+        // //modifypage.setVisible(false); 
     }
 }
