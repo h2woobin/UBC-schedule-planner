@@ -55,13 +55,17 @@ public class GUI extends JFrame implements ActionListener {
     private JLabel actualMark;
 
     private JPanel modifypage;
-    private JButton modifyExam;
     private JButton removeExam;
+
+    private JTextField subjectInputField;
+    private JLabel subjectLabel;
 
     public GUI() {
         super("Exam List App");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(600, 500));
+
+        examControl = new ExamControl(); // ++
 
         mainPage();
         makeEaxmListPanel();
@@ -121,16 +125,16 @@ public class GUI extends JFrame implements ActionListener {
         returnToMain.setActionCommand("Main menu");
         returnToMain.addActionListener(this);
 
-        modifyExam = new JButton("Modify"); // 버튼 만들기
-        modifyExam.setActionCommand("Modify");
-        modifyExam.addActionListener(this);
+        // modifyExam = new JButton("Modify"); // 버튼 만들기
+        // modifyExam.setActionCommand("Modify");
+        // modifyExam.addActionListener(this);
 
         removeExam = new JButton("Remove"); // 버튼 만들기
         removeExam.setActionCommand("Remove");
         removeExam.addActionListener(this);
 
         addButtonBlack(returnToMain, topPanel);
-        addButtonBlack(modifyExam, topPanel);
+        // addButtonBlack(modifyExam, topPanel);
         addButtonBlack(removeExam, topPanel);
     }
 
@@ -138,44 +142,44 @@ public class GUI extends JFrame implements ActionListener {
         subject = new JLabel("Subject: ");
         text1 = new JTextField(10);
 
-        date = new JLabel("Date (YY/MM/DD): ");
-        text2 = new JTextField(10);
+        // date = new JLabel("Date (YY/MM/DD): ");
+        // text2 = new JTextField(10);
 
-        time = new JLabel("Time (24-hour clock): ");
-        text3 = new JTextField(10);
+        // time = new JLabel("Time (24-hour clock): ");
+        // text3 = new JTextField(10);
 
-        location = new JLabel("Location:");
-        text4 = new JTextField(10);
+        // location = new JLabel("Location:");
+        // text4 = new JTextField(10);
 
-        goalMark = new JLabel("Goal mark: ");
-        text5 = new JTextField(10);
+        // goalMark = new JLabel("Goal mark: ");
+        // text5 = new JTextField(10);
 
         modfiyInforSetting(); // 오른쪽 입력하는 칸
 
         bottomPanel.add(subject);
         bottomPanel.add(text1);
-        bottomPanel.add(date);
-        bottomPanel.add(text2);
-        bottomPanel.add(time);
-        bottomPanel.add(text3);
-        bottomPanel.add(location);
-        bottomPanel.add(text4);
-        bottomPanel.add(goalMark);
-        bottomPanel.add(text5);
+        // bottomPanel.add(date);
+        // bottomPanel.add(text2);
+        // bottomPanel.add(time);
+        // bottomPanel.add(text3);
+        // bottomPanel.add(location);
+        // bottomPanel.add(text4);
+        // bottomPanel.add(goalMark);
+        // bottomPanel.add(text5);
     }
 
     public void modfiyInforSetting() { // 사용자 입력칸 세팅값
         subject.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
-        date.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
-        time.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
-        location.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
-        goalMark.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
+        // date.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
+        // time.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
+        // location.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
+        // goalMark.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
 
         text1.setMaximumSize(new Dimension(1200, 400));
-        text2.setMaximumSize(new Dimension(1200, 400));
-        text3.setMaximumSize(new Dimension(1200, 400));
-        text4.setMaximumSize(new Dimension(1200, 400));
-        text5.setMaximumSize(new Dimension(1200, 400));
+        // text2.setMaximumSize(new Dimension(1200, 400));
+        // text3.setMaximumSize(new Dimension(1200, 400));
+        // text4.setMaximumSize(new Dimension(1200, 400));
+        // text5.setMaximumSize(new Dimension(1200, 400));
     }
     // ------------여기까지과목을지우고수정하는메서드-------
 
@@ -280,14 +284,34 @@ public class GUI extends JFrame implements ActionListener {
     }
 
     public void createActaulMakrPage() {
-        addActualMark = new JButton("Add"); // 버튼 만들기
-        addActualMark.setActionCommand("Add");
-        addActualMark.addActionListener(this);
+        addActualMark = new JButton("Add Actual Mark"); // 버튼 만들기
+        addActualMark.setActionCommand("Add Actual Mark");
+        addActualMark.addActionListener(e -> {
+            String inputSubject = subjectInputField.getText();
+            int actualMarkValue;
+
+            try {
+                actualMarkValue = Integer.parseInt(text6.getText());
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Please enter a valid actual mark.", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (examControl != null) {
+                examControl.addActualMark(inputSubject, actualMarkValue);
+            } else {
+                JOptionPane.showMessageDialog(this, "Subject not found.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            subjectInputField.setText("");
+            text6.setText("");
+        });
+        subjectLabel = new JLabel("Subject: ");
+        subjectInputField = new JTextField(10);
 
         actualMark = new JLabel("Actual Mark: ");
         text6 = new JTextField(10);
 
-        // listed = false;
         addAcutalMarkButtonsSetting(); // 오른쪽 입력하는 칸
     }
 
@@ -296,12 +320,16 @@ public class GUI extends JFrame implements ActionListener {
         addActualMark.setForeground(Color.WHITE);
         addActualMark.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
 
+        subjectInputField.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
         actualMark.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
         text6.setMaximumSize(new Dimension(1200, 400));
     }
 
     public void addLabelsToListingsActualMark() {
         addActaulMakrPage.add(addActualMark);
+        addActaulMakrPage.add(subjectLabel);
+        addActaulMakrPage.add(subjectInputField);
+
         addActaulMakrPage.add(actualMark);
         addActaulMakrPage.add(text6);
     }
@@ -362,8 +390,8 @@ public class GUI extends JFrame implements ActionListener {
                 + escapeHtml(String.valueOf(exam.getTime()))
                 + "<br>" + "Location: "
                 + escapeHtml(exam.getLocation()) + "<br>" + "Goal Mark: "
-                + escapeHtml(String.valueOf(exam.getGoalMark())) + "<br>--------------------</html>";
-
+                + escapeHtml(String.valueOf(exam.getGoalMark())) + "<br>" + "Actual Mark: "
+                + escapeHtml(String.valueOf(exam.getActMark())) + "<br>--------------------</html>";
     }
     // ----------------------------------------------------------------------
 
@@ -412,15 +440,15 @@ public class GUI extends JFrame implements ActionListener {
             curExamListSet();
         } else if (action.getActionCommand().equals("Add Exam schedule")) { // 0
             addExampanelSet();
-        } else if (action.getActionCommand().equals("Modify Exam")) {
+        } else if (action.getActionCommand().equals("Modify Exam")) { // 0
             modifypanelSet();
-        } else if (action.getActionCommand().equals("Add actual mark")) { // 받아서 추가...
+        } else if (action.getActionCommand().equals("Add actual mark")) { // 0
             addActualMarkSet();
-        } else if (action.getActionCommand().equals("Calculate GPA")) {
+        } else if (action.getActionCommand().equals("Calculate GPA")) { // 버튼 누르면 actual mark 로 계산 X
 
-        } else if (action.getActionCommand().equals("Save file")) {
+        } else if (action.getActionCommand().equals("Save file")) { // X
             // saveExam();
-        } else if (action.getActionCommand().equals("Load file")) {
+        } else if (action.getActionCommand().equals("Load file")) { // X
 
         } else if (action.getActionCommand().equals("Quit the app")) {
             System.exit(0);
@@ -430,10 +458,18 @@ public class GUI extends JFrame implements ActionListener {
             addExamToList();
         } else if (action.getActionCommand().equals("Remove")) { // 0
             removeExmaToList();
-        }  
+        } else if (action.getActionCommand().equals("Add Actual Mark")) { // 0
+            // addActualMarkToList();
+        }
     }
 
-    public void removeExmaToList(){ 
+    // public void addActualMarkToList(){
+    // String subject = text1.getText();
+    // int actualMark = Integer.parseInt(text6.getText());
+
+    // }
+
+    public void removeExmaToList() {
         String subject = text1.getText();
 
         if (examControl == null || examControl.getExamList().isEmpty()) {
@@ -443,10 +479,10 @@ public class GUI extends JFrame implements ActionListener {
         examControl.deleteSubject(subject);
 
         text1.setText("");
-        text2.setText("");
-        text3.setText("");
-        text4.setText("");
-        text5.setText("");
+        // text2.setText("");
+        // text3.setText("");
+        // text4.setText("");
+        // text5.setText("");
     }
 
     public void addExamToList() {
@@ -460,7 +496,7 @@ public class GUI extends JFrame implements ActionListener {
             examControl = new ExamControl(); // 초기화
         }
 
-        examControl.addSubject(subject, date, time, location, goalMark); 
+        examControl.addSubject(subject, date, time, location, goalMark);
 
         // Exam exam = new Exam(subject, date, time, location, goalMark);
         // examList.add(exam);
@@ -470,7 +506,8 @@ public class GUI extends JFrame implements ActionListener {
         text3.setText("");
         text4.setText("");
         text5.setText("");
-    } 
+
+    }
 
     // EFFECTS: add buttons to main menu at once
     public void addButtons(JButton button1, JButton button2, JButton button3, JButton button4, JButton button5,
@@ -512,7 +549,7 @@ public class GUI extends JFrame implements ActionListener {
         if (mainMenu != null) {
             mainMenu.setVisible(true); // 메인 메뉴 활성화
         }
-    
+
         // 다른 패널 숨기기 전에 null 체크
         if (eaxmListPanel != null) {
             eaxmListPanel.setVisible(false);
@@ -526,9 +563,9 @@ public class GUI extends JFrame implements ActionListener {
         if (modifypage != null) {
             modifypage.setVisible(false);
         }
-    
+
         // UI 갱신
         revalidate();
-        repaint(); 
+        repaint();
     }
 }
