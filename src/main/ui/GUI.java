@@ -430,10 +430,10 @@ public class GUI extends JFrame implements ActionListener {
             addExamToList();
         } else if (action.getActionCommand().equals("Remove")) { // 0
             removeExmaToList();
-        }
+        }  
     }
 
-    public void removeExmaToList(){
+    public void removeExmaToList(){ 
         String subject = text1.getText();
 
         if (examControl == null || examControl.getExamList().isEmpty()) {
@@ -529,11 +529,6 @@ public class GUI extends JFrame implements ActionListener {
     
         // UI 갱신
         revalidate();
-        repaint();
-        // mainMenu.setVisible(true);
-        // eaxmListPanel.setVisible(false);
-        // addExamPage.setVisible(false);
-        // addActaulMakrPage.setVisible(false);
-        // //modifypage.setVisible(false); 
+        repaint(); 
     }
 }
