@@ -444,30 +444,30 @@ public class GUI extends JFrame implements ActionListener {
             modifypanelSet();
         } else if (action.getActionCommand().equals("Add actual mark")) { // 0
             addActualMarkSet();
-        } else if (action.getActionCommand().equals("Calculate GPA")) { // 버튼 누르면 actual mark 로 계산 X
-
+        } else if (action.getActionCommand().equals("Calculate GPA")) { //0
+            calculateGpa();
         } else if (action.getActionCommand().equals("Save file")) { // X
             // saveExam();
         } else if (action.getActionCommand().equals("Load file")) { // X
 
-        } else if (action.getActionCommand().equals("Quit the app")) {
-            System.exit(0);
         } else if (action.getActionCommand().equals("Main menu")) {// 0
             returnToMainMenu();
         } else if (action.getActionCommand().equals("Add")) { // 0
             addExamToList();
         } else if (action.getActionCommand().equals("Remove")) { // 0
             removeExmaToList();
-        } else if (action.getActionCommand().equals("Add Actual Mark")) { // 0
-            // addActualMarkToList();
         }
     }
 
-    // public void addActualMarkToList(){
-    // String subject = text1.getText();
-    // int actualMark = Integer.parseInt(text6.getText());
+    public void calculateGpa() {
+        if (examControl == null || examControl.getExamList().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No exams available to delete.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-    // }
+        String gpa = examControl.gpa();
+        JOptionPane.showMessageDialog(this, "Your GPA is: " + gpa, "GPA Calculation", JOptionPane.INFORMATION_MESSAGE);
+    }
 
     public void removeExmaToList() {
         String subject = text1.getText();
@@ -479,10 +479,6 @@ public class GUI extends JFrame implements ActionListener {
         examControl.deleteSubject(subject);
 
         text1.setText("");
-        // text2.setText("");
-        // text3.setText("");
-        // text4.setText("");
-        // text5.setText("");
     }
 
     public void addExamToList() {
@@ -497,9 +493,6 @@ public class GUI extends JFrame implements ActionListener {
         }
 
         examControl.addSubject(subject, date, time, location, goalMark);
-
-        // Exam exam = new Exam(subject, date, time, location, goalMark);
-        // examList.add(exam);
 
         text1.setText("");
         text2.setText("");
