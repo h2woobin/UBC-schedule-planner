@@ -1,6 +1,6 @@
 {"exams": [{
     "Goal Mark": 85,
-    "Time": 12,
+    "Time": 11,
     "Subject": "chem",
     "Date": 240101,
     "Location": "B123"

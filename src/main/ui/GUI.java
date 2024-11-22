@@ -11,17 +11,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException; 
+import java.io.IOException; 
 import java.util.List;
 
 public class GUI extends JFrame implements ActionListener {
     private static final String EXAMLIST_FILE = "./data/examListings.txt";
-    private Exam exam;
     private ExamControl examControl;
-    private List<Exam> examList = new ArrayList<>();
     private JsonWriter writer;
 
     private JPanel mainMenu;
@@ -34,9 +29,8 @@ public class GUI extends JFrame implements ActionListener {
     private JButton button7;
     private JButton button8;
 
-    private JPanel eaxmListPanel;
+    private JPanel examListPanel;
     private JLabel listings;
-    private boolean listed;
 
     private JPanel addExamPage;
     private JButton addExam;
@@ -84,6 +78,7 @@ public class GUI extends JFrame implements ActionListener {
         mainMenu.setVisible(true); // 페이지가 보이게 함
     }
 
+    //EFFECTS: Create buttons which are in the main page
     public void mainButtonsInitialize() { // 메인페이지 8개 버튼 이름들
         button1 = new JButton("Current Exam List");
         button2 = new JButton("Add Exam schedule");
@@ -96,6 +91,7 @@ public class GUI extends JFrame implements ActionListener {
     }
 
     // ----------------여기서부터과목지우고수정하는페이지---------------
+    // EFFECTS: Setting of modify page. Close main page and open modify page
     public void modifypanelSet() {
         if (modifypage == null) {
             modifypanel();
@@ -107,7 +103,8 @@ public class GUI extends JFrame implements ActionListener {
         revalidate(); // 레이아웃 갱신
         repaint();
     }
-
+    // MODIFES: this
+    // EFFECTS: Create modify panel. Divied two pannels each has buttons
     public void modifypanel() {
         modifypage = new JPanel();
         modifypage.setLayout(new BorderLayout());
@@ -121,71 +118,44 @@ public class GUI extends JFrame implements ActionListener {
         modifypage.add(topPanel, BorderLayout.NORTH); // 상단 버튼
         modifypage.add(bottomPanel, BorderLayout.CENTER); // 하단 입력 칸
     }
-
+    
+    // MODIFES: this
+    // EFFECTS: Create remove buttons and put them to top panel.
     public void createTopButtons(JPanel topPanel) {
         JButton returnToMain = new JButton("Main menu");
         returnToMain.setActionCommand("Main menu");
         returnToMain.addActionListener(this);
-
-        // modifyExam = new JButton("Modify"); // 버튼 만들기
-        // modifyExam.setActionCommand("Modify");
-        // modifyExam.addActionListener(this);
 
         removeExam = new JButton("Remove"); // 버튼 만들기
         removeExam.setActionCommand("Remove");
         removeExam.addActionListener(this);
 
         addButtonBlack(returnToMain, topPanel);
-        // addButtonBlack(modifyExam, topPanel);
         addButtonBlack(removeExam, topPanel);
     }
 
+    // MODIFES: this
+    // EFFECTS: Create the box which user can enter the subject wants to remove
     public void createBottomButtons(JPanel bottomPanel) {
         subject = new JLabel("Subject: ");
         text1 = new JTextField(10);
-
-        // date = new JLabel("Date (YY/MM/DD): ");
-        // text2 = new JTextField(10);
-
-        // time = new JLabel("Time (24-hour clock): ");
-        // text3 = new JTextField(10);
-
-        // location = new JLabel("Location:");
-        // text4 = new JTextField(10);
-
-        // goalMark = new JLabel("Goal mark: ");
-        // text5 = new JTextField(10);
 
         modfiyInforSetting(); // 오른쪽 입력하는 칸
 
         bottomPanel.add(subject);
         bottomPanel.add(text1);
-        // bottomPanel.add(date);
-        // bottomPanel.add(text2);
-        // bottomPanel.add(time);
-        // bottomPanel.add(text3);
-        // bottomPanel.add(location);
-        // bottomPanel.add(text4);
-        // bottomPanel.add(goalMark);
-        // bottomPanel.add(text5);
     }
-
+    // MODIFES: this
+    // EFFECTS: set letter's font and size 
     public void modfiyInforSetting() { // 사용자 입력칸 세팅값
         subject.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
-        // date.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
-        // time.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
-        // location.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
-        // goalMark.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
-
         text1.setMaximumSize(new Dimension(1200, 400));
-        // text2.setMaximumSize(new Dimension(1200, 400));
-        // text3.setMaximumSize(new Dimension(1200, 400));
-        // text4.setMaximumSize(new Dimension(1200, 400));
-        // text5.setMaximumSize(new Dimension(1200, 400));
     }
-    // ------------여기까지과목을지우고수정하는메서드-------
+    // -------여기까지과목을지우고수정하는메서드-----------
 
     // ------여기서부터과목을추가하는메서드시작------------
+    // MODIFES: this
+    // EFFECTS: add the page which can add information about exam
     public void addExampanelSet() {
         add(addExamPage);
         addExamPage.setVisible(true);
@@ -193,7 +163,8 @@ public class GUI extends JFrame implements ActionListener {
         revalidate(); // 레이아웃 갱신
         repaint();
     }
-
+    // MODIFES: this
+    // EFFECTS: create the adding panel and the mian button 
     public void addExampanel() {
         addExamPage = new JPanel(new GridLayout(0, 2));
         JButton returnToMain = new JButton("Main menu");
@@ -206,6 +177,8 @@ public class GUI extends JFrame implements ActionListener {
         addLabelsToListings();
     }
 
+    // MODIFES: this
+    // EFFECTS: create add button and boxs which user can add exam information
     public void createAddExamPage() {
         addExam = new JButton("Add"); // 버튼 만들기
         addExam.setActionCommand("Add");
@@ -229,6 +202,8 @@ public class GUI extends JFrame implements ActionListener {
         examInforSetting(); // 오른쪽 입력하는 칸
     }
 
+    // MODIFES: this
+    // EFFECTS: Set font and size of letters
     public void examInforSetting() { // 사용자 입력칸 세팅값
         addExam.setBackground(Color.BLACK);
         addExam.setForeground(Color.WHITE);
@@ -247,10 +222,10 @@ public class GUI extends JFrame implements ActionListener {
         text5.setMaximumSize(new Dimension(1200, 400));
     }
 
+    // EFFECTS: add buttons to tha add exam page
     public void addLabelsToListings() {
         // 리스트 페이지에 입력된 정보 넣기
         addExamPage.add(addExam);
-
         addExamPage.add(subject);
         addExamPage.add(text1);
         addExamPage.add(date);
@@ -265,6 +240,8 @@ public class GUI extends JFrame implements ActionListener {
     // --------여기까지새로운시험을추가하는것------------------
 
     // --------시험점수를입력하는메서드------------------------
+
+    // EFFECTS: add the page which user can put their actual mark
     public void addActualMarkSet() {
         add(addActaulMakrPage);
         addActaulMakrPage.setVisible(true);
@@ -273,6 +250,8 @@ public class GUI extends JFrame implements ActionListener {
         repaint();
     }
 
+    // MODIFES: this
+    // EFFECTS: create the panel and buttons
     public void addActualMarkpanel() {
         addActaulMakrPage = new JPanel(new GridLayout(0, 2));
         JButton returnToMain = new JButton("Main menu");
@@ -285,6 +264,8 @@ public class GUI extends JFrame implements ActionListener {
         addLabelsToListingsActualMark();
     }
 
+    // MODIFES: this
+    // EFFECTS: create the page which can add user's actual mark. If user enter invalid number, throw the error msg
     public void createActaulMakrPage() {
         addActualMark = new JButton("Add Actual Mark"); // 버튼 만들기
         addActualMark.setActionCommand("Add Actual Mark");
@@ -317,6 +298,8 @@ public class GUI extends JFrame implements ActionListener {
         addAcutalMarkButtonsSetting(); // 오른쪽 입력하는 칸
     }
 
+    // MODIFES: this
+    // EFFECTS: Set the font,size and colour of letters
     public void addAcutalMarkButtonsSetting() {
         addActualMark.setBackground(Color.BLACK);
         addActualMark.setForeground(Color.WHITE);
@@ -327,6 +310,8 @@ public class GUI extends JFrame implements ActionListener {
         text6.setMaximumSize(new Dimension(1200, 400));
     }
 
+    // MODIFES: this
+    // EFFECTS: add buttons to the page
     public void addLabelsToListingsActualMark() {
         addActaulMakrPage.add(addActualMark);
         addActaulMakrPage.add(subjectLabel);
@@ -337,25 +322,29 @@ public class GUI extends JFrame implements ActionListener {
     }
     // --- add actual mark -----------------------------------------------------
 
-    // Create start msg text label and add to the main
+    // MODFIES: this
+    // EFFECTS: Create start msg text label and add to the main
     public void addLabel(JLabel label) { // 텍스트 입력시 기본정보
         label.setFont(new Font("TimesNewRoman", Font.BOLD, 50));
         mainMenu.add(label);
     }
 
-    // ----------------------------------------------------------------------
+    // --------------여기서부터가지고있는리스트만들기-------------------------------
+    // MODIFES: this
+    // EFFECTS: add current exam list page 
     public void curExamListSet() {
         makeEaxmListPanel();
-        add(eaxmListPanel); // carListingPanel을 화면에 추가함
-        eaxmListPanel.setVisible(true); // 사용자가 정보를 볼 수 있음
+        add(examListPanel); // carListingPanel을 화면에 추가함
+        examListPanel.setVisible(true); // 사용자가 정보를 볼 수 있음
         mainMenu.setVisible(false); // main안보이게
         revalidate();
         repaint();
     }
 
+    // MODIFES: this 
     // EFFECTS: create exam list panel and set the size and shape with scroll.
     public void makeEaxmListPanel() {
-        eaxmListPanel = new JPanel(new BorderLayout());
+        examListPanel = new JPanel(new BorderLayout());
         DefaultListModel<String> listModel = new DefaultListModel<>();
         if (examControl == null) {
             listModel.addElement("No exams available.");
@@ -374,18 +363,20 @@ public class GUI extends JFrame implements ActionListener {
         mainMenuButton.setActionCommand("Main menu"); // 버튼을 눌렀을때 동작을 말하는 것 같음
         mainMenuButton.addActionListener(this);
 
-        eaxmListPanel.add(scrollPane, BorderLayout.CENTER); // JList 추가
-        eaxmListPanel.add(mainMenuButton, BorderLayout.SOUTH); // 버튼 추가
+        examListPanel.add(scrollPane, BorderLayout.CENTER); // JList 추가
+        examListPanel.add(mainMenuButton, BorderLayout.SOUTH); // 버튼 추가
     }
-
+    
+    //EFFECTS: replace input string to html letter
     private String escapeHtml(String input) {
         return input.replace("&", "&amp;")
                 .replace("<", "&lt;")
                 .replace(">", "&gt;")
                 .replace("\"", "&quot;")
-                .replace("'", "&apos;");
-    }
+                .replace("'", "&apos;");  
+    } 
 
+    // EFFECTS: listting exam's information and trans the letter to html letter
     public String formatExamDetails(Exam exam) {
         return "<html>" + "Subject: " + escapeHtml(exam.getSub()) + "<br>" + "Date: "
                 + escapeHtml(String.valueOf(exam.getDate())) + "<br>" + "Time: "
@@ -397,17 +388,18 @@ public class GUI extends JFrame implements ActionListener {
     }
     // ----------------------------------------------------------------------
 
-    // --------------------Main--------------------------------------------------
+    // --------------------Main---------------------------------------------
+
+    // MODFIES: this 
     // EFFECTS: Make the main menu and set the colour.
     public void mainPage() {
         mainMenu = new JPanel(); // 메인 메뉴 만들고 배경색 설정
         mainMenu.setBackground(Color.darkGray);
         add(mainMenu);
         listings = new JLabel(); // ??
-        listings.setText("No Listings available");
+        listings.setText("No Listings available"); 
     }
 
-    // MODIFIES: this
     // EFFECTS: Set each button run their job
     public void addActionToButton() {
         button1.addActionListener(this);
@@ -448,10 +440,10 @@ public class GUI extends JFrame implements ActionListener {
             addActualMarkSet();
         } else if (action.getActionCommand().equals("Calculate GPA")) { //0
             calculateGpa();
-        } else if (action.getActionCommand().equals("Save file")) { // X
+        } else if (action.getActionCommand().equals("Save file")) { // 0
             saveFile();
-        } else if (action.getActionCommand().equals("Load file")) { // X
-
+        } else if (action.getActionCommand().equals("Load file")) { // 0
+            loadFile();
         } else if (action.getActionCommand().equals("Main menu")) {// 0
             returnToMainMenu();
         } else if (action.getActionCommand().equals("Add")) { // 0
@@ -461,9 +453,10 @@ public class GUI extends JFrame implements ActionListener {
         }
     }
 
+    // EFFECTS: calculate use's gpa with actual mark. if there's no exam, throw the error msg
     public void calculateGpa() {
         if (examControl == null || examControl.getExamList().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No exams available to delete.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "No exams available to calculate.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -471,6 +464,7 @@ public class GUI extends JFrame implements ActionListener {
         JOptionPane.showMessageDialog(this, "Your GPA is: " + gpa, "GPA Calculation", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    // EFFECTS: remove the exam from exam list
     public void removeExmaToList() {
         String subject = text1.getText();
 
@@ -483,6 +477,7 @@ public class GUI extends JFrame implements ActionListener {
         text1.setText("");
     }
 
+    // EFFECTS: Add exam information to the exam list
     public void addExamToList() {
         String subject = text1.getText();
         int date = Integer.parseInt(text2.getText());
@@ -528,6 +523,8 @@ public class GUI extends JFrame implements ActionListener {
         setResizable(false); // 사용자가 프레임 크기를 조정할 수 없도록 설정
     }
 
+    // MODIFES: this
+    // EFFECTS: set the button which is using many times. Size, colour and font 
     public void addButtonBlack(JButton button1, JPanel panel) {
         button1.setFont(new Font("TimesNewRoman", Font.BOLD, 12));
         button1.setBackground(Color.BLACK);
@@ -538,7 +535,8 @@ public class GUI extends JFrame implements ActionListener {
         setVisible(true); // 프레임을 화면에 표시
         setResizable(false); // 사용자가 프레임 크기를 조정할 수 없도록 설정
     }
-
+    // MODIFES: this
+    // EFFECTS: save file as data file 
     public void saveFile(){
         if (examControl == null || examControl.getExamList().isEmpty()) {
             JOptionPane.showMessageDialog(this, "No exams available to delete.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -555,7 +553,25 @@ public class GUI extends JFrame implements ActionListener {
     }
 
     }
+    // MODIFES: this
+    // EFFECTS: load file from recent save file
+    public void loadFile(){
+        if(examControl == null){
+            examControl = new ExamControl();
+        }
 
+        JsonReader reader = new JsonReader(EXAMLIST_FILE);
+        try{
+            List<Exam> loadedExams = reader.read();
+            examControl.getExamList().clear();
+            examControl.getExamList().addAll(loadedExams);
+            JOptionPane.showMessageDialog(this, "Exam list loaded successfully!", "Load File", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException e){
+            JOptionPane.showMessageDialog(this, "Error loading file.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    // EFFECTS: set pages invisible except for main menu
     public void returnToMainMenu() {
 
         if (mainMenu != null) {
@@ -563,8 +579,8 @@ public class GUI extends JFrame implements ActionListener {
         }
 
         // 다른 패널 숨기기 전에 null 체크
-        if (eaxmListPanel != null) {
-            eaxmListPanel.setVisible(false);
+        if (examListPanel != null) {
+            examListPanel.setVisible(false);
         }
         if (addExamPage != null) {
             addExamPage.setVisible(false);
