@@ -51,6 +51,7 @@ public class GUI extends JFrame implements ActionListener {
 
     private JPanel modifypage;
     private JButton removeExam;
+    private JTextField text7;
 
     private JTextField subjectInputField;
     private JLabel subjectLabel;
@@ -150,18 +151,18 @@ public class GUI extends JFrame implements ActionListener {
     // EFFECTS: Create the box which user can enter the subject wants to remove
     public void createBottomButtons(JPanel bottomPanel) {
         subject = new JLabel("Subject: ");
-        text1 = new JTextField(10);
+        text7 = new JTextField(10);
 
         modfiyInforSetting(); // 오른쪽 입력하는 칸
 
         bottomPanel.add(subject);
-        bottomPanel.add(text1);
+        bottomPanel.add(text7);
     }
     // MODIFES: this
     // EFFECTS: set letter's font and size 
     public void modfiyInforSetting() { // 사용자 입력칸 세팅값
         subject.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
-        text1.setMaximumSize(new Dimension(1200, 400));
+        text7.setMaximumSize(new Dimension(1200, 400));
     }
     // -------여기까지과목을지우고수정하는메서드-----------
 
@@ -480,15 +481,15 @@ public class GUI extends JFrame implements ActionListener {
 
     // EFFECTS: remove the exam from exam list
     public void removeExmaToList() {
-        String subject = text1.getText().trim();
+        String subject = text7.getText().trim();
         if (examControl == null || examControl.getExamList().isEmpty()) {
             JOptionPane.showMessageDialog(this, "No exams available to delete.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
         examControl.deleteSubject(subject); 
-        text1.setText(""); 
-        System.out.println("After Clearing text1: " + text1.getText()); // Ok
+        text7.setText(""); 
+        System.out.println("After Clearing text1: " + text7.getText()); // Ok
         
     }
 

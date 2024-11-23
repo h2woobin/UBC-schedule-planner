@@ -19,3 +19,10 @@ As a student, exams are always following me since I was in Korea. In our country
 - As a user, I want to be able to get my GPA <br> 
 - As a user, I want to be able to save my exam list to file 
 - As a user, I want to be able to be able to load my exam list from file
+
+## Instructions for End User
+- You can add your exams and their information like date,time,location and goal mark with entering on 'Add exam' page. After you put exam information, press add button. you can check your exam information on 'Current exam List'.
+- You can add your acutal mark what you got on your test. Go and add your subject and actual mark on the page. Then you can check your actual mark on 'Current exam List'. 
+- You can get your gap when you press the 'Get gpa' button. Before click the button, you need to add your actual mark.
+- You can save your exam as a file and can get out from the program.
+- You can load the recent file when you press the 'load file' button.
