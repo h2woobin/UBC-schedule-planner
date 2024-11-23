@@ -1,7 +1,7 @@
 {"exams": [{
-    "Goal Mark": 85,
+    "Goal Mark": 45,
     "Time": 11,
     "Subject": "chem",
     "Date": 240101,
-    "Location": "B123"
+    "Location": "B21"
 }]}

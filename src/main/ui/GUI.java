@@ -10,7 +10,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.io.IOException; 
 import java.util.List;
 
@@ -70,12 +69,25 @@ public class GUI extends JFrame implements ActionListener {
 
         JLabel startMsg = new JLabel("Plan you exam here!");
         addLabel(startMsg);
+        JLabel imageMain = new JLabel();
+        addImage(imageMain);
+
 
         mainButtonsInitialize(); // 메인페이지 8개 버튼 이름
         addButtons(button1, button2, button3, button4, button5, button7, button6); // 메인페이지 8개 버튼
         addActionToButton(); // 메인페이지 8개 버튼에 대한 커맨더
 
         mainMenu.setVisible(true); // 페이지가 보이게 함
+    }
+
+    public void addImage(JLabel image){
+        ImageIcon icon = new ImageIcon("./data/exam.png");
+        Image img = icon.getImage();
+        Image scaledImg = img.getScaledInstance(600,300, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImg); 
+        image.setIcon(scaledIcon);
+        image.setHorizontalAlignment(JLabel.CENTER); // 이미지 가운데 정렬
+        mainMenu.add(image, BorderLayout.CENTER);
     }
 
     //EFFECTS: Create buttons which are in the main page
@@ -105,7 +117,7 @@ public class GUI extends JFrame implements ActionListener {
     }
     // MODIFES: this
     // EFFECTS: Create modify panel. Divied two pannels each has buttons
-    public void modifypanel() {
+    public void modifypanel() {        
         modifypage = new JPanel();
         modifypage.setLayout(new BorderLayout());
 
@@ -160,6 +172,7 @@ public class GUI extends JFrame implements ActionListener {
         add(addExamPage);
         addExamPage.setVisible(true);
         mainMenu.setVisible(false);
+        text1.setText("");
         revalidate(); // 레이아웃 갱신
         repaint();
     }
@@ -464,22 +477,25 @@ public class GUI extends JFrame implements ActionListener {
         JOptionPane.showMessageDialog(this, "Your GPA is: " + gpa, "GPA Calculation", JOptionPane.INFORMATION_MESSAGE);
     }
 
+
     // EFFECTS: remove the exam from exam list
     public void removeExmaToList() {
-        String subject = text1.getText();
-
+        String subject = text1.getText().trim();
         if (examControl == null || examControl.getExamList().isEmpty()) {
             JOptionPane.showMessageDialog(this, "No exams available to delete.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        examControl.deleteSubject(subject);
-
-        text1.setText("");
+        
+        examControl.deleteSubject(subject); 
+        text1.setText(""); 
+        System.out.println("After Clearing text1: " + text1.getText()); // Ok
+        
     }
 
     // EFFECTS: Add exam information to the exam list
     public void addExamToList() {
         String subject = text1.getText();
+        System.out.println("text1: " + text1.getText()); // not working...
         int date = Integer.parseInt(text2.getText());
         int time = Integer.parseInt(text3.getText());
         String location = text4.getText();
@@ -491,12 +507,16 @@ public class GUI extends JFrame implements ActionListener {
 
         examControl.addSubject(subject, date, time, location, goalMark);
 
+        revalidate(); // 레이아웃 갱신
+        repaint();
+
         text1.setText("");
         text2.setText("");
         text3.setText("");
         text4.setText("");
         text5.setText("");
 
+        
     }
 
     // EFFECTS: add buttons to main menu at once
