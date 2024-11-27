@@ -10,7 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
-import java.io.IOException; 
+import java.io.IOException;
 import java.util.List;
 
 public class GUI extends JFrame implements ActionListener {
@@ -73,7 +73,6 @@ public class GUI extends JFrame implements ActionListener {
         JLabel imageMain = new JLabel();
         addImage(imageMain);
 
-
         mainButtonsInitialize(); // 메인페이지 8개 버튼 이름
         addButtons(button1, button2, button3, button4, button5, button7, button6); // 메인페이지 8개 버튼
         addActionToButton(); // 메인페이지 8개 버튼에 대한 커맨더
@@ -81,17 +80,17 @@ public class GUI extends JFrame implements ActionListener {
         mainMenu.setVisible(true); // 페이지가 보이게 함
     }
 
-    public void addImage(JLabel image){
+    public void addImage(JLabel image) {
         ImageIcon icon = new ImageIcon("./data/exam.png");
         Image img = icon.getImage();
-        Image scaledImg = img.getScaledInstance(600,300, Image.SCALE_SMOOTH);
-        ImageIcon scaledIcon = new ImageIcon(scaledImg); 
+        Image scaledImg = img.getScaledInstance(600, 300, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImg);
         image.setIcon(scaledIcon);
         image.setHorizontalAlignment(JLabel.CENTER); // 이미지 가운데 정렬
         mainMenu.add(image, BorderLayout.CENTER);
     }
 
-    //EFFECTS: Create buttons which are in the main page
+    // EFFECTS: Create buttons which are in the main page
     public void mainButtonsInitialize() { // 메인페이지 8개 버튼 이름들
         button1 = new JButton("Current Exam List");
         button2 = new JButton("Add Exam schedule");
@@ -116,9 +115,10 @@ public class GUI extends JFrame implements ActionListener {
         revalidate(); // 레이아웃 갱신
         repaint();
     }
+
     // MODIFES: this
     // EFFECTS: Create modify panel. Divied two pannels each has buttons
-    public void modifypanel() {        
+    public void modifypanel() {
         modifypage = new JPanel();
         modifypage.setLayout(new BorderLayout());
 
@@ -131,7 +131,7 @@ public class GUI extends JFrame implements ActionListener {
         modifypage.add(topPanel, BorderLayout.NORTH); // 상단 버튼
         modifypage.add(bottomPanel, BorderLayout.CENTER); // 하단 입력 칸
     }
-    
+
     // MODIFES: this
     // EFFECTS: Create remove buttons and put them to top panel.
     public void createTopButtons(JPanel topPanel) {
@@ -158,8 +158,9 @@ public class GUI extends JFrame implements ActionListener {
         bottomPanel.add(subject);
         bottomPanel.add(text7);
     }
+
     // MODIFES: this
-    // EFFECTS: set letter's font and size 
+    // EFFECTS: set letter's font and size
     public void modfiyInforSetting() { // 사용자 입력칸 세팅값
         subject.setFont(new Font("TimesNewRoman", Font.BOLD, 24));
         text7.setMaximumSize(new Dimension(1200, 400));
@@ -177,8 +178,9 @@ public class GUI extends JFrame implements ActionListener {
         revalidate(); // 레이아웃 갱신
         repaint();
     }
+
     // MODIFES: this
-    // EFFECTS: create the adding panel and the mian button 
+    // EFFECTS: create the adding panel and the mian button
     public void addExampanel() {
         addExamPage = new JPanel(new GridLayout(0, 2));
         JButton returnToMain = new JButton("Main menu");
@@ -279,7 +281,8 @@ public class GUI extends JFrame implements ActionListener {
     }
 
     // MODIFES: this
-    // EFFECTS: create the page which can add user's actual mark. If user enter invalid number, throw the error msg
+    // EFFECTS: create the page which can add user's actual mark. If user enter
+    // invalid number, throw the error msg
     public void createActaulMakrPage() {
         addActualMark = new JButton("Add Actual Mark"); // 버튼 만들기
         addActualMark.setActionCommand("Add Actual Mark");
@@ -345,7 +348,7 @@ public class GUI extends JFrame implements ActionListener {
 
     // --------------여기서부터가지고있는리스트만들기-------------------------------
     // MODIFES: this
-    // EFFECTS: add current exam list page 
+    // EFFECTS: add current exam list page
     public void curExamListSet() {
         makeEaxmListPanel();
         add(examListPanel); // carListingPanel을 화면에 추가함
@@ -355,7 +358,7 @@ public class GUI extends JFrame implements ActionListener {
         repaint();
     }
 
-    // MODIFES: this 
+    // MODIFES: this
     // EFFECTS: create exam list panel and set the size and shape with scroll.
     public void makeEaxmListPanel() {
         examListPanel = new JPanel(new BorderLayout());
@@ -380,15 +383,15 @@ public class GUI extends JFrame implements ActionListener {
         examListPanel.add(scrollPane, BorderLayout.CENTER); // JList 추가
         examListPanel.add(mainMenuButton, BorderLayout.SOUTH); // 버튼 추가
     }
-    
-    //EFFECTS: replace input string to html letter
+
+    // EFFECTS: replace input string to html letter
     private String escapeHtml(String input) {
         return input.replace("&", "&amp;")
                 .replace("<", "&lt;")
                 .replace(">", "&gt;")
                 .replace("\"", "&quot;")
-                .replace("'", "&apos;");  
-    } 
+                .replace("'", "&apos;");
+    }
 
     // EFFECTS: listting exam's information and trans the letter to html letter
     public String formatExamDetails(Exam exam) {
@@ -404,14 +407,14 @@ public class GUI extends JFrame implements ActionListener {
 
     // --------------------Main---------------------------------------------
 
-    // MODFIES: this 
+    // MODFIES: this
     // EFFECTS: Make the main menu and set the colour.
     public void mainPage() {
         mainMenu = new JPanel(); // 메인 메뉴 만들고 배경색 설정
         mainMenu.setBackground(Color.darkGray);
         add(mainMenu);
         listings = new JLabel(); // ??
-        listings.setText("No Listings available"); 
+        listings.setText("No Listings available");
     }
 
     // EFFECTS: Set each button run their job
@@ -452,7 +455,7 @@ public class GUI extends JFrame implements ActionListener {
             modifypanelSet();
         } else if (action.getActionCommand().equals("Add actual mark")) { // 0
             addActualMarkSet();
-        } else if (action.getActionCommand().equals("Calculate GPA")) { //0
+        } else if (action.getActionCommand().equals("Calculate GPA")) { // 0
             calculateGpa();
         } else if (action.getActionCommand().equals("Save file")) { // 0
             saveFile();
@@ -467,7 +470,8 @@ public class GUI extends JFrame implements ActionListener {
         }
     }
 
-    // EFFECTS: calculate use's gpa with actual mark. if there's no exam, throw the error msg
+    // EFFECTS: calculate use's gpa with actual mark. if there's no exam, throw the
+    // error msg
     public void calculateGpa() {
         if (examControl == null || examControl.getExamList().isEmpty()) {
             JOptionPane.showMessageDialog(this, "No exams available to calculate.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -478,7 +482,6 @@ public class GUI extends JFrame implements ActionListener {
         JOptionPane.showMessageDialog(this, "Your GPA is: " + gpa, "GPA Calculation", JOptionPane.INFORMATION_MESSAGE);
     }
 
-
     // EFFECTS: remove the exam from exam list
     public void removeExmaToList() {
         String subject = text7.getText().trim();
@@ -486,11 +489,11 @@ public class GUI extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(this, "No exams available to delete.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
-        examControl.deleteSubject(subject); 
-        text7.setText(""); 
+
+        examControl.deleteSubject(subject);
+        text7.setText("");
         System.out.println("After Clearing text1: " + text7.getText()); // Ok
-        
+
     }
 
     // EFFECTS: Add exam information to the exam list
@@ -517,7 +520,6 @@ public class GUI extends JFrame implements ActionListener {
         text4.setText("");
         text5.setText("");
 
-        
     }
 
     // EFFECTS: add buttons to main menu at once
@@ -545,7 +547,7 @@ public class GUI extends JFrame implements ActionListener {
     }
 
     // MODIFES: this
-    // EFFECTS: set the button which is using many times. Size, colour and font 
+    // EFFECTS: set the button which is using many times. Size, colour and font
     public void addButtonBlack(JButton button1, JPanel panel) {
         button1.setFont(new Font("TimesNewRoman", Font.BOLD, 12));
         button1.setBackground(Color.BLACK);
@@ -556,38 +558,42 @@ public class GUI extends JFrame implements ActionListener {
         setVisible(true); // 프레임을 화면에 표시
         setResizable(false); // 사용자가 프레임 크기를 조정할 수 없도록 설정
     }
+
     // MODIFES: this
-    // EFFECTS: save file as data file 
-    public void saveFile(){
+    // EFFECTS: save file as data file
+    public void saveFile() {
         if (examControl == null || examControl.getExamList().isEmpty()) {
             JOptionPane.showMessageDialog(this, "No exams available to delete.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         writer = new JsonWriter(EXAMLIST_FILE);
-        try{
+        try {
             writer.open();
             writer.write(examControl.toJson());
             writer.close();
-            JOptionPane.showMessageDialog(this, "Exam list saved successfully!", "Save File", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Exam list saved successfully!", "Save File",
+                    JOptionPane.INFORMATION_MESSAGE);
         } catch (FileNotFoundException e) {
-        JOptionPane.showMessageDialog(this, "Error saving to file.", "Error", JOptionPane.ERROR_MESSAGE);
-    }
+            JOptionPane.showMessageDialog(this, "Error saving to file.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
 
     }
+
     // MODIFES: this
     // EFFECTS: load file from recent save file
-    public void loadFile(){
-        if(examControl == null){
+    public void loadFile() {
+        if (examControl == null) {
             examControl = new ExamControl();
         }
 
         JsonReader reader = new JsonReader(EXAMLIST_FILE);
-        try{
+        try {
             List<Exam> loadedExams = reader.read();
             examControl.getExamList().clear();
             examControl.getExamList().addAll(loadedExams);
-            JOptionPane.showMessageDialog(this, "Exam list loaded successfully!", "Load File", JOptionPane.INFORMATION_MESSAGE);
-        } catch (IOException e){
+            JOptionPane.showMessageDialog(this, "Exam list loaded successfully!", "Load File",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "Error loading file.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
