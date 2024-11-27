@@ -26,3 +26,19 @@ As a student, exams are always following me since I was in Korea. In our country
 - You can get your gap when you press the 'Get gpa' button. Before click the button, you need to add your actual mark.
 - You can save your exam as a file and can get out from the program.
 - You can load the recent file when you press the 'load file' button.
+
+## Phase 4: Task 2
+- Application shutting down. Event Log:
+- Subject added: chem
+Tue Nov 26 19:42:42 PST 2024
+- Subject added: ling
+Tue Nov 26 19:42:57 PST 2024
+- Actual mark added for subject: chem (Mark: 75)
+Tue Nov 26 19:43:05 PST 2024
+- Actual mark added for subject: ling (Mark: 65)
+Tue Nov 26 19:43:19 PST 2024
+- Subject removed: chem
+Tue Nov 26 19:43:45 PST 2024
+- Subject added: bio
+Tue Nov 26 19:43:56 PST 2024
+- Actual mark added for subject: bio (Mark: 88)
