@@ -10,7 +10,7 @@ public class Main {
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             System.out.println("Application shutting down. Event Log: ");
-            for(Event event: EventLog.getInstance()){
+            for (Event event : EventLog.getInstance()) {
                 System.out.println(event.toString());
             }
         }));

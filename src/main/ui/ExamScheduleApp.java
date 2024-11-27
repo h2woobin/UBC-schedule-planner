@@ -65,7 +65,8 @@ public class ExamScheduleApp {
     }
 
     // MODIFIES: this
-    // EFFECTS: ask user click the alphabet which user wants to do 
+    // EFFECTS: ask user click the alphabet which user wants to do
+    @SuppressWarnings("methodlength")
     public void intro() {
         String alphabet = "";
 
@@ -110,8 +111,9 @@ public class ExamScheduleApp {
         System.out.println("q: Quit the app");
         line();
     }
+
     // MODIFIES: this
-    // EFFECTS: get information about subject and save to the list 
+    // EFFECTS: get information about subject and save to the list
     public void addSubject() {
         String state = "Y";
 
@@ -173,6 +175,7 @@ public class ExamScheduleApp {
 
     // MODIFIES: this
     // EFFECTS: ask user delete or modify subject and delete or change infor
+    @SuppressWarnings("methodlength")
     public void modifySubject(String modSub, int modNum) {
         for (Exam exam : examControl.getExamList()) {
             if (exam.getSub().equalsIgnoreCase(modSub)) {
@@ -208,7 +211,7 @@ public class ExamScheduleApp {
     }
 
     // MODIFIES: this
-    // EFFECTS: get user's actual 
+    // EFFECTS: get user's actual
     public void addActualMark() {
         for (Exam e : examControl.getExamList()) {
             System.out.print(e.getSub() + ": ");

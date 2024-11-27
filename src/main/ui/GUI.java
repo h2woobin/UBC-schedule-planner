@@ -283,6 +283,7 @@ public class GUI extends JFrame implements ActionListener {
     // MODIFES: this
     // EFFECTS: create the page which can add user's actual mark. If user enter
     // invalid number, throw the error msg
+    @SuppressWarnings("methodlength") 
     public void createActaulMakrPage() {
         addActualMark = new JButton("Add Actual Mark"); // 버튼 만들기
         addActualMark.setActionCommand("Add Actual Mark");
@@ -461,7 +462,7 @@ public class GUI extends JFrame implements ActionListener {
             saveFile();
         } else if (action.getActionCommand().equals("Load file")) { // 0
             loadFile();
-        } else if (action.getActionCommand().equals("Main menu")) {// 0
+        } else if (action.getActionCommand().equals("Main menu")) {
             returnToMainMenu();
         } else if (action.getActionCommand().equals("Add")) { // 0
             addExamToList();

@@ -65,11 +65,11 @@ public class Exam implements Writable {
         this.goalMark = goalMark;
     }
 
-    public int getActMark(){
+    public int getActMark() {
         return actMark;
     }
 
-    public void setActMark(int actMark){
+    public void setActMark(int actMark) {
         this.actMark = actMark;
     }
 

@@ -40,11 +40,11 @@ public class ExamTest {
 
         examOne.setTime(13);
         assertEquals(13, examOne.getTime());
-        
+
     }
 
     @Test
-    void testAddSameSubject(){
+    void testAddSameSubject() {
         tesExamControl.addSubject("chem", 241016, 11, "B015", 85);
         tesExamControl.addSubject("chem", 241017, 15, "B017", 85);
 

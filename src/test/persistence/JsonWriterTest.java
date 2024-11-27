@@ -13,7 +13,7 @@ import model.Exam;
 import model.ExamControl;
 
 public class JsonWriterTest extends JsonTest {
-    
+
     @Test
     void testWriterInvalidFile() {
         try {
@@ -30,7 +30,7 @@ public class JsonWriterTest extends JsonTest {
     @Test
     void testWriterEmptyExam() {
         ExamControl tesExamControl = new ExamControl();
-        
+
         try {
             tesExamControl.addSubject("cpsc", 241010, 11, "B101", 85);
 
